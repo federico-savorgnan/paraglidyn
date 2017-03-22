@@ -1,0 +1,124 @@
+#########################################################################
+#
+# PARAGLIDYN - Paraglider pre-processor for MBDyn
+#
+# Copyright (C) 2016 - 2017
+# https://github.com/federico-savorgnan/paraglidyn
+#
+# Federico Savorgnan <federico.savorgnan@gmail.com>
+#
+#  Changing this copyright notice is forbidden.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#########################################################################
+
+begin: data;
+	integrator: initial value;
+end: data;
+
+include: "paraglide.set" ;
+
+begin: initial value;
+	initial time: 0.;
+	final time: 10. ;
+	time step: 0.01 ;
+
+	method: ms, .6;
+	max iterations: 100, at most;
+	tolerance: 1.e-5;
+	# linear solver: naive, colamd;
+	# nonlinear solver: newton raphson, modified, 4;
+	derivatives tolerance:  1.e-2;
+	derivatives max iterations:  100;
+	derivatives coefficient:  1.e-9;
+ 	#output: iterations;
+	# output: residual;
+#	nonlinear solver: newton raphson, modified, 4;
+	#linear solver: umfpack, cc, block size, 2;
+	#eigenanalysis: 0.,
+	#	use lapack,
+	#	output eigenvectors,
+	#	output geometry;
+end: initial value;
+
+begin: control data;
+	#skip initial joint assembly;
+	output results: netcdf ;
+
+	structural nodes:
+        + 2 * N_rib - 1		# canopy ribs
+        + 1        # pilot
+        + 2 * N_rib   # dummy line_A / line_B
+        + 4 * N_rib - 2   # dummy LE / TE
+        + 2 * N_rib - 1   # dummy AERO
+        + 2 * N_rib - 1   # dummy BEAM
+	;
+	rigid bodies:
+				+ 2 * N_rib - 1   # wing
+      	+ 1      			# pilota
+	;
+	joints:
+        #+ 2           # carabiner
+				+ 2 * N_rib   # LINE_A / LINE_B
+	;
+  beams:
+        + N_cell  # Beam3
+  ;
+	aerodynamic elements:
+				+ N_cell  # Aero Beam3
+	;
+  forces:
+       + 1           # Pilot drag
+  ;
+	air properties;
+	gravity;
+end: control data;
+
+
+# REFERENCE SYSTEMS
+reference: CANOPY,
+        reference, global, null,
+        reference, global,
+						1, -cos(pre_pitch), 0., -sin(pre_pitch),
+						2,  0., -1., 0.,
+        reference, global, V_inf, 0., -V_inf/Eff,
+        reference, global, null;
+
+## Infinity thumbling (not sure if it works)
+#reference: CANOPY,
+#        reference, global, null,
+#        reference, global, 2, 0., 1., 0., 1, cos(pre_pitch), 0., -sin(pre_pitch),
+#        reference, global, -V_inf, 0., -V_inf/Eff,
+#        reference, global, 0., 2.5*V_inf/z_pilot, 0.;
+
+include: "pilot.ref";
+include: "canopy.ref";
+
+begin: nodes;
+	include: "pilot.nod";
+	include: "canopy.nod";
+end: nodes;
+
+begin: elements;
+  gravity: uniform, 0., 0., -1., const, 9.81;
+
+	air properties: std, SI, reference altitude, 0.,
+	1., 0., 0.,
+	const, 0. ;
+
+  include: "pilot.elm";
+  include: "canopy.elm";
+
+end: elements;
