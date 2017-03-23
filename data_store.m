@@ -31,7 +31,7 @@ N.ribs = N.cell + 1 ; % Wing number of Ribs
 
 % % Canopy Vault shape
 vault.a = 6.0 ;    % m - semiaxis ellipse
-vault.b = 2 ;    % m -semiaxis ellipse
+vault.b = 3 ;    % m -semiaxis ellipse
 vault.xm = 5.39;      % m - semi-span
 vault.x1 = 2. ;    % m - correction point
 vault.c0 = 1. ;   % m - correction strenght
@@ -54,8 +54,8 @@ te.c0 = 0.5 ;       % m - correction strenght
 te.type = 0 ; %  correction type (exponent)
 
 % RIBS twist
-rib.tw0 = 0 * pi/180 ;
-rib.tw1 = 10 * pi/180 ;
+rib.tw0 = 2 * pi/180 ;
+rib.tw1 = 4 * pi/180 ;
 % Pilot position
 pilot.x(1) = 0.2 * (le.b + te.b) ;   % m - Pilot X position
 pilot.x(2) = 0. ;                     % m - Pilot Y position
@@ -71,7 +71,7 @@ pilot.tau = 8.;
 pCG = 0.2 ;  % Adimensional 0-1
 pAC = 0.25 ;  % Adimensional 0-1
 pA  = 0.1 ;  % Adimensional 0-1
-pB  = 0.9 ;  % Adimensional 0-1
+pB  = 0.7 ;  % Adimensional 0-1
 
 % Pilot Drag
 pilot.S_aer = 0.5; % Pilot Frontal aerodynamic surface
@@ -89,18 +89,18 @@ pilot.Izz = 9. ;  % 9.
 rib.Ixx = .05 ;  % .05
 rib.Iyy = .2 ;   % .2
 rib.Izz = .2 ;   % .2
-stiff_A = 1.e7;  % N/m lines stiffness
-stiff_B = 1.e7;  % N/m lines stiffness
+stiff_A = 1.e8;  % N/m lines stiffness
+stiff_B = 1.e8;  % N/m lines stiffness
 damp_A = 100;    % N/m/s lines damp
 damp_B = 100;    % N/m/s lines damp
 
 %% Canopy beam section properties
-EA  = 1.e2 ;
+EA  = 1.e3 ;
 GAy = 1.e3 ;
 GAz = 1.e3 ;
 GJ  = 1.e3 ;
-EJy = 1.e5 ;
-EJz = 1.e5 ;
+EJy = 1.e7 ;
+EJz = 1.e7 ;
 damp_fact = 0.05 ;
 aer_int_pts = 5 ;
 

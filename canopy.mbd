@@ -32,8 +32,8 @@ include: "paraglide.set" ;
 
 begin: initial value;
 	initial time: 0.;
-	final time: 10. ;
-	time step: 0.01 ;
+	final time: 100. ;
+	time step: 0.005 ;
 
 	method: ms, .6;
 	max iterations: 100, at most;
