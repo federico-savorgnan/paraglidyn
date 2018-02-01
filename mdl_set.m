@@ -28,21 +28,27 @@
 PILOT = 1 ;
 CARAB = 10 ;
 CANOPY = 1e6 ;
-EPS1 = 5e6 ;
-EPS2 = 6e3 ;
-RIBS_CG = 1e3 ;
-RIBS_AC = 2e3 ;
-RIBS_LE = 3e3 ;
-RIBS_TE = 4e3 ;
-BEAM = 1e4 ;
-AERO = 2e4 ;
-LINE_A = 3e4 ;
-LINE_B = 4e4 ;
+RIBS_CG = 1e4 ;
+RIBS_AC = 2e4 ;
+RIBS_LE = 3e4 ;
+RIBS_TE = 4e4 ;
+BOX = 5e4 ;
+JOINT_D1 = 6e4 ;
+JOINT_D2 = 7e4 ;
+JOINT_H1 = 8e4 ;
+JOINT_H2 = 9e4 ;
+BEAM = 1e5 ;
+AERO = 8e5 ;
+LINE_A = 3e5 ;
+LINE_B = 4e5 ;
+KNOT_1 = 1e3 ;
 
 disp('Writing variables');
 %% Set Variables
 fid = fopen([model_name, '/paraglide.set'],'w') ;
   write_copy(fid);
+  fprintf(fid,'set: const integer N_knot = %d ;    \n', length(knot)) ;
+  fprintf(fid,'set: const integer N_rope = %d ;    \n', N.rope) ;
   fprintf(fid,'set: const integer N_cell = %d ;    \n', N.cell) ;
   fprintf(fid,'set: const integer N_rib = N_cell + 1 ;    \n') ;
 
@@ -53,12 +59,16 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
   fprintf(fid,'set: const integer RIBS_AC = %d ;   \n',   RIBS_AC) ;
   fprintf(fid,'set: const integer RIBS_LE = %d ;   \n',   RIBS_LE) ;
   fprintf(fid,'set: const integer RIBS_TE = %d ;   \n',   RIBS_TE) ;
-  fprintf(fid,'set: const integer EPS1 = %d ;   \n',   EPS1) ;
-  fprintf(fid,'set: const integer EPS2 = %d ;   \n',   EPS2) ;
+  fprintf(fid,'set: const integer BOX = %d ;   \n',   BOX) ;
+  fprintf(fid,'set: const integer JOINT_D1 = %d ;   \n',   JOINT_D1) ;
+  fprintf(fid,'set: const integer JOINT_D2 = %d ;   \n',   JOINT_D2) ;
+  fprintf(fid,'set: const integer JOINT_H1 = %d ;   \n',   JOINT_H1) ;
+  fprintf(fid,'set: const integer JOINT_H2 = %d ;   \n',   JOINT_H2) ;
   fprintf(fid,'set: const integer BEAM = %d ;    \n',   BEAM) ;
   fprintf(fid,'set: const integer AERO = %d ;    \n',    AERO) ;
   fprintf(fid,'set: const integer LINE_A = %d ;    \n', LINE_A) ;
   fprintf(fid,'set: const integer LINE_B = %d ;    \n', LINE_B) ;
+  fprintf(fid,'set: const integer KNOT_1 = %d ;    \n', KNOT_1) ;
   fprintf(fid,'set: const real Cd = %6.4f ; \n',      pilot.Cd) ;
   fprintf(fid,'set: const real S_pilot = %6.4f ; \n', pilot.S_aer) ;
   fprintf(fid,'set: const real rho = %6.4f ; \n',     pilot.rho) ;
@@ -74,11 +84,4 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
 
   fprintf(fid,'set: const integer aer_int_pts =  %d; \n', aer_int_pts) ;
 
-  fprintf(fid,'set: const real EA = %6.4f ; \n',  EA) ;
-  fprintf(fid,'set: const real GAy = %6.4f ; \n', GAy) ;
-  fprintf(fid,'set: const real GAz = %6.4f ; \n', GAz) ;
-  fprintf(fid,'set: const real GJ = %6.4f ; \n',  GJ) ;
-  fprintf(fid,'set: const real EJy = %6.4f ; \n', EJy) ;
-  fprintf(fid,'set: const real EJz = %6.4f ; \n', EJz) ;
-  fprintf(fid,'set: const real damp_fact = %6.4f ; \n', damp_fact) ;
 fclose(fid);

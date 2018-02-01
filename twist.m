@@ -25,5 +25,8 @@
 % ########################################################################
 
 function [ th ] = twist(x, th0, th1)
-   th = ones(length(x),1)*th0 + abs(x).*(th1-th0)/x(end);
+  %% Linear TWIST
+  %%  th0 = wing Tip
+  %%  th1 = wing Root
+      th = ones(length(x),1)*th0 + abs(x).*(th1-th0)/x(end);
 end

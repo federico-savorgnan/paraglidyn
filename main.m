@@ -23,16 +23,16 @@
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 % ########################################################################
-
+function main(sim)
 close all
-clear all
 clc
 
 model_name = 'wing_01' ;
 
 %% Overwrite model check
 if exist(model_name)
-    overw = yes_or_no('!!! WARNING !!! : Overwrite model?  ') ;
+    %overw = yes_or_no('!!! WARNING !!! : Overwrite model?  ') ;
+ overw = 1;
     if overw
        disp('Deleting model') ;
       system(['rm -R ', model_name]);
@@ -45,22 +45,27 @@ end
 if ~exist(model_name)
   disp('Creating new model') ;
   system(['mkdir ', model_name]);
-  system(['cp canopy.mbd ', model_name, '/canopy.mbd']);
 
   %% Input model data
     data_store
   %% Geometry generation
     geom_eng
+
+  %% Main analysis deck files
+    mdl_canopy
   %% Model variables
     mdl_set
   %% Wing reference
-    mdl_ref_wing
+    mdl_ref
   %% Pilot model files
     mdl_pilot
   %% Nodes and Elements
     mdl_eng
 
   disp('MODEL SUCCESFULLY CREATED');
-  disp('Launch model simulation ...');
-  system(['/usr/local/mbdyn/bin/mbdyn ', model_name, '/canopy.mbd'])
+  %sim = yes_or_no('Launch model simulation ? ');
+
+  if sim
+    OUT = system(['/usr/local/mbdyn/bin/mbdyn ', model_name, '/canopy.mbd &']);
+  end
 end
