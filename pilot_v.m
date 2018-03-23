@@ -1,4 +1,4 @@
-function [Pilot_v] = pilot_v(filename, ID_plot)
+function [Pilot_v] = pilot_v(filename, ID_plot, time)
   %% Pilot velocity
     figure(ID_plot)
     hold on

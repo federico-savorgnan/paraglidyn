@@ -1,7 +1,7 @@
 function [d1, d2, e1, e2] = joint_x(filename, ID_plot, N, time)
   %% WING JOINTS FORCES
     figure(ID_plot, 'Position', [50 100 1150 600])
-    subplot(1,2,1)
+    figure(11)
     hold on
     grid on
     title('Wing Joint Displacement')
@@ -22,7 +22,7 @@ function [d1, d2, e1, e2] = joint_x(filename, ID_plot, N, time)
     end
 
   %% WING JOINTS MOMENTS
-  subplot(1,2,2)
+figure(10)
   hold on
   grid on
   title('Wing Joint Rotational Displacement')

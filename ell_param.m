@@ -1,4 +1,3 @@
-
 % ########################################################################
 %
 % PARAGLIDYN - Paraglider pre-processor for MBDyn
@@ -6,8 +5,8 @@
 % Copyright (C) 2016 - 2018
 % https://github.com/federico-savorgnan/paraglidyn
 %
-# Federico Savorgnan <federico.savorgnan@gmail.com>
-#
+% Federico Savorgnan <federico.savorgnan@gmail.com>
+%
 %  Changing this copyright notice is forbidden.
 %
 % This program is free software: you can redistribute it and/or modify
@@ -24,3 +23,16 @@
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 % ########################################################################
+
+function [ y, th ] = ell_param( x, param )
+% ELLIPSE   Generate ellipse shape
+% inputs:
+%   - span position (y)
+%   - shape parameter (a, b, ym)
+%   - paramection parameter (x1, c0, type)
+for i = 1 : length(x)
+    y(i) = param.b * sqrt(1 - (x(i)/param.a)^2) ;
+    dy(i) = -param.b * ( x(i) / (param.a^2) ) * 1 / ( sqrt(1 - (x(i)/param.a)^2) );
+ % No paramection
+  elseif ( abs(x(i)) <= param.x1 ) && (~( strcmp(param.type, 'none') ) || ( param.type ~= 0 ) )
+    y(i) = param.b * sqrt(1 - (x(i)/param.a)^2) ;

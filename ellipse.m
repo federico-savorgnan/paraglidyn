@@ -2,7 +2,7 @@
 %
 % PARAGLIDYN - Paraglider pre-processor for MBDyn
 %
-% Copyright (C) 2016 - 2017
+% Copyright (C) 2016 - 2018
 % https://github.com/federico-savorgnan/paraglidyn
 %
 % Federico Savorgnan <federico.savorgnan@gmail.com>

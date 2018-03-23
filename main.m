@@ -2,7 +2,7 @@
 %
 % PARAGLIDYN - Paraglider pre-processor for MBDyn
 %
-% Copyright (C) 2016 - 2017
+% Copyright (C) 2016 - 2018
 % https://github.com/federico-savorgnan/paraglidyn
 %
 % Federico Savorgnan <federico.savorgnan@gmail.com>
@@ -32,7 +32,7 @@ model_name = 'wing_01' ;
 %% Overwrite model check
 if exist(model_name)
     %overw = yes_or_no('!!! WARNING !!! : Overwrite model?  ') ;
- overw = 1;
+ overw = 1 ;
     if overw
        disp('Deleting model') ;
       system(['rm -R ', model_name]);

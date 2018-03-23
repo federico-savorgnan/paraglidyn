@@ -32,8 +32,8 @@ include: "paraglide.set" ;
 
 begin: initial value;
 	initial time: 0.;
-	final time: 100. ;
-	time step: 0.005 ;
+	final time: 10. ;
+	time step: 0.1 ;
 
 	method: ms, .6;
 	max iterations: 100, at most;
@@ -70,14 +70,14 @@ begin: control data;
       	+ 1      			# pilota
 	;
 	joints:
-        #+ 2           # carabiner
+        #+ 2          # carabiner
 				+ 2 * N_rib   # LINE_A / LINE_B
 	;
   beams:
         + N_cell  # Beam3
   ;
 	aerodynamic elements:
-				+ N_cell  # Aero Beam3
+				+ N_cell     # Aero Beam3
 	;
   forces:
        + 1           # Pilot drag

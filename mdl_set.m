@@ -2,7 +2,7 @@
 %
 % PARAGLIDYN - Paraglider pre-processor for MBDyn
 %
-% Copyright (C) 2016 - 2017
+% Copyright (C) 2016 - 2018
 % https://github.com/federico-savorgnan/paraglidyn
 %
 % Federico Savorgnan <federico.savorgnan@gmail.com>
@@ -32,12 +32,13 @@ RIBS_CG = 1e4 ;
 RIBS_AC = 2e4 ;
 RIBS_LE = 3e4 ;
 RIBS_TE = 4e4 ;
-BOX = 5e4 ;
-JOINT_D1 = 6e4 ;
-JOINT_D2 = 7e4 ;
-JOINT_H1 = 8e4 ;
-JOINT_H2 = 9e4 ;
+BEAM_0 = 5e4 ;
+AERO_0 = 6e4 ;
+
+BEAM_I = 7e4 ;
+BEAM_II = 8e4;
 BEAM = 1e5 ;
+
 AERO = 8e5 ;
 LINE_A = 3e5 ;
 LINE_B = 4e5 ;
@@ -59,11 +60,10 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
   fprintf(fid,'set: const integer RIBS_AC = %d ;   \n',   RIBS_AC) ;
   fprintf(fid,'set: const integer RIBS_LE = %d ;   \n',   RIBS_LE) ;
   fprintf(fid,'set: const integer RIBS_TE = %d ;   \n',   RIBS_TE) ;
-  fprintf(fid,'set: const integer BOX = %d ;   \n',   BOX) ;
-  fprintf(fid,'set: const integer JOINT_D1 = %d ;   \n',   JOINT_D1) ;
-  fprintf(fid,'set: const integer JOINT_D2 = %d ;   \n',   JOINT_D2) ;
-  fprintf(fid,'set: const integer JOINT_H1 = %d ;   \n',   JOINT_H1) ;
-  fprintf(fid,'set: const integer JOINT_H2 = %d ;   \n',   JOINT_H2) ;
+  fprintf(fid,'set: const integer BEAM_0 = %d ;   \n',   BEAM_0) ;
+  fprintf(fid,'set: const integer AERO_0 = %d ;   \n',   AERO_0) ;
+  fprintf(fid,'set: const integer BEAM_I = %d ;   \n',   BEAM_I) ;
+  fprintf(fid,'set: const integer BEAM_II = %d ;   \n',   BEAM_II) ;
   fprintf(fid,'set: const integer BEAM = %d ;    \n',   BEAM) ;
   fprintf(fid,'set: const integer AERO = %d ;    \n',    AERO) ;
   fprintf(fid,'set: const integer LINE_A = %d ;    \n', LINE_A) ;
@@ -77,6 +77,15 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
   fprintf(fid,'set: const real stiff_B = %6.4f ; \n',  stiff_B) ;
   fprintf(fid,'set: const real damp_A = %6.4f ; \n',   damp_A) ;
   fprintf(fid,'set: const real damp_B = %6.4f ; \n',   damp_B) ;
+
+
+  fprintf(fid,'set: const real EA = %6.4f ;   \n',   EA) ;
+  fprintf(fid,'set: const real GAy = %6.4f ;   \n',   GAy) ;
+  fprintf(fid,'set: const real GAz = %6.4f ;   \n',   GAz) ;
+  fprintf(fid,'set: const real GJ = %6.4f ;   \n',   GJ) ;
+  fprintf(fid,'set: const real EJy = %6.4f ;   \n',   EJy) ;
+  fprintf(fid,'set: const real EJz = %6.4f ;   \n',   EJz) ;
+  fprintf(fid,'set: const real damp_fact = %6.4f ;   \n',   damp_fact) ;
 
   fprintf(fid,'set: const real V_inf = %6.4f ; \n',      ic.V_inf) ;
   fprintf(fid,'set: const real Eff = %6.4f ; \n',        ic.Eff) ;

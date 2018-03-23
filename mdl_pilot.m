@@ -2,7 +2,7 @@
 %
 % PARAGLIDYN - Paraglider pre-processor for MBDyn
 %
-% Copyright (C) 2016 - 2017
+% Copyright (C) 2016 - 2018
 % https://github.com/federico-savorgnan/paraglidyn
 %
 % Federico Savorgnan <federico.savorgnan@gmail.com>
@@ -30,7 +30,7 @@ fid = fopen([model_name, '/pilot.ref'], 'w') ;
     write_copy(fid);
     % PILOT CG
     fprintf(fid,'reference: PILOT, \n') ;
-    fprintf(fid,'        reference, CANOPY, %6.4f, %6.4f, %6.4f, \n', pilot.x );
+    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', pilot.x );
     fprintf(fid,'        reference, CANOPY, eye, \n') ;
     fprintf(fid,'        reference, CANOPY, null, \n') ;
     fprintf(fid,'        reference, CANOPY, null; \n') ;
@@ -57,9 +57,9 @@ fid = fopen([model_name, '/pilot.elm'],'w') ;
   fprintf(fid,'       const, 0., \n');
   fprintf(fid,'       array, %d,    \n', 2*pilot.Ncyc );
   for i = 1 : pilot.Ncyc
-    %fprintf(fid,'       sine, %6.4f, %6.4f, %6.4f, %s, 0., \n', (i-1)*pilot.Dt + pilot.t0, 0.5*pi/pilot.tau,  pilot.offset, pilot.type);
-    fprintf(fid,'       cosine, %6.4f, %6.4f, %6.4f, %s, 0., \n', (2*i-2)*(pilot.tau) + pilot.t0, 2*pi/pilot.tau,  pilot.offset, pilot.type);
-    fprintf(fid,'       cosine, %6.4f, %6.4f, %6.4f, %s, 0., \n', (2*i-1)*(pilot.tau) + pilot.t0, 2*pi/pilot.tau,  pilot.offset, pilot.type);
+    %fprintf(fid,'       sine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (i-1)*pilot.Dt + pilot.t0, 0.5*pi/pilot.tau,  pilot.offset, pilot.type);
+    fprintf(fid,'       cosine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (2*i-2)*(pilot.tau) + pilot.t0, 2*pi/pilot.tau,  pilot.offset, pilot.type);
+    fprintf(fid,'       cosine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (2*i-1)*(pilot.tau) + pilot.t0, 2*pi/pilot.tau,  pilot.offset, pilot.type);
 
 
   end

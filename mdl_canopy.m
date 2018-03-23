@@ -2,7 +2,7 @@
 %
 % PARAGLIDYN - Paraglider pre-processor for MBDyn
 %
-% Copyright (C) 2016 - 2017
+% Copyright (C) 2016 - 2018
 % https://github.com/federico-savorgnan/paraglidyn
 %
 % Federico Savorgnan <federico.savorgnan@gmail.com>
@@ -38,15 +38,15 @@ fprintf(fid, 'include: "paraglide.set" ;    \n') ;
 
 fprintf(fid, 'begin: initial value;    \n') ;
 fprintf(fid, 'initial time: 0.;    \n') ;
-fprintf(fid, 'final time: 50 ;    \n') ;
-fprintf(fid, 'time step: 0.01 ;    \n') ;
+fprintf(fid, 'final time: 3 ;    \n') ;
+fprintf(fid, 'time step: 0.0001 ;    \n') ;
 
-fprintf(fid, 'method: ms, .6;    \n') ;
+fprintf(fid, 'method: ms, .4;    \n') ;
 fprintf(fid, 'max iterations: 1000, at most;    \n') ;
-fprintf(fid, 'tolerance: 1.e-5;    \n') ;
+fprintf(fid, 'tolerance: 1.e-6;    \n') ;
 fprintf(fid, '# linear solver: naive, colamd;    \n') ;
 fprintf(fid, '# nonlinear solver: newton raphson, modified, 4;    \n') ;
-fprintf(fid, 'derivatives tolerance:  1.e-5;    \n') ;
+fprintf(fid, 'derivatives tolerance:  1.e-6;    \n') ;
 fprintf(fid, 'derivatives max iterations:  100;    \n') ;
 fprintf(fid, 'derivatives coefficient:  auto, max iterations, 10;    \n') ;
 fprintf(fid, '#output: iterations;    \n') ;
@@ -54,39 +54,36 @@ fprintf(fid, '# output: residual;    \n') ;
 
 fprintf(fid, '#	nonlinear solver: newton raphson, modified, 4;    \n') ;
 fprintf(fid, '# linear solver: umfpack, cc, block size, 2;    \n') ;
-fprintf(fid, '# eigenanalysis: 0.,    \n') ;
-fprintf(fid, '#	use lapack,    \n') ;
-fprintf(fid, '#	output eigenvectors,    \n') ;
-fprintf(fid, '#	output geometry ;    \n') ;
+fprintf(fid, 'eigenanalysis: 0.,    \n') ;
+fprintf(fid, '	use lapack,    \n') ;
+fprintf(fid, '	output eigenvectors,    \n') ;
+fprintf(fid, '	output geometry ;    \n') ;
 fprintf(fid, 'end: initial value ;    \n') ;
 
 fprintf(fid, 'begin: control data;            \n') ;
 fprintf(fid, '  # skip initial joint assembly ;  \n') ;
 fprintf(fid, '   output results: netcdf ;      \n') ;
-fprintf(fid, '   default orientation: orientation matrix ;    \n') ;
+fprintf(fid, ' #  default orientation: orientation matrix ;    \n') ;
 
 fprintf(fid, '	 structural nodes:                  \n') ;
 fprintf(fid, '      + N_rib 	# canopy ribs         \n') ;
-fprintf(fid, '      + N_cell 	# canopy boxes         \n') ;
 fprintf(fid, '      + 2*N_knot 	# lines knots         \n') ;
 fprintf(fid, '      + 1        # pilot              \n') ;
-fprintf(fid, '      + 4*N_rib    # dummy LE / TE    \n') ;
-fprintf(fid, '      + N_cell     # dummy AERO     \n') ;
+fprintf(fid, '      + 2*N_rib    # dummy LE / TE    \n') ;
 fprintf(fid, '   ; \n') ;
 fprintf(fid, '  rigid bodies:                       \n') ;
 fprintf(fid, '      +  N_rib    # wing              \n') ;
-fprintf(fid, '      +  N_cell    # wing              \n') ;
 fprintf(fid, '      +  2*N_knot    # knots           \n') ;
 fprintf(fid, '      + 1      			# pilota          \n') ;
 fprintf(fid, '   ; \n') ;
 fprintf(fid, '  joints:                             \n') ;
 fprintf(fid, '      + 4*N_rope   # LINE_A + LINE_B    \n') ;
-fprintf(fid, '      + 4*N_cell   # wing joints        \n') ;
 fprintf(fid, '   ; \n') ;
 fprintf(fid, '  beams:                              \n') ;
+fprintf(fid, '      + (N_rib-1)/2                    \n') ;
 fprintf(fid, '   ; \n') ;
 fprintf(fid, '  aerodynamic elements:               \n') ;
-fprintf(fid, '      + N_cell     # Aero Body         \n') ;
+fprintf(fid, '      + (N_rib-1)/2      # Aero Body  \n') ;
 fprintf(fid, '   ; \n') ;
 fprintf(fid, '  forces:                             \n') ;
 fprintf(fid, '      + 1           # Pilot drag      \n') ;
