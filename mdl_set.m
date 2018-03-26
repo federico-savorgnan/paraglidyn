@@ -78,15 +78,6 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
   fprintf(fid,'set: const real damp_A = %6.4f ; \n',   damp_A) ;
   fprintf(fid,'set: const real damp_B = %6.4f ; \n',   damp_B) ;
 
-
-  fprintf(fid,'set: const real EA = %6.4f ;   \n',   EA) ;
-  fprintf(fid,'set: const real GAy = %6.4f ;   \n',   GAy) ;
-  fprintf(fid,'set: const real GAz = %6.4f ;   \n',   GAz) ;
-  fprintf(fid,'set: const real GJ = %6.4f ;   \n',   GJ) ;
-  fprintf(fid,'set: const real EJy = %6.4f ;   \n',   EJy) ;
-  fprintf(fid,'set: const real EJz = %6.4f ;   \n',   EJz) ;
-  fprintf(fid,'set: const real damp_fact = %6.4f ;   \n',   damp_fact) ;
-
   fprintf(fid,'set: const real V_inf = %6.4f ; \n',      ic.V_inf) ;
   fprintf(fid,'set: const real Eff = %6.4f ; \n',        ic.Eff) ;
   fprintf(fid,'set: const real pre_pitch = %6.4f ; \n',  ic.pre_pitch) ;

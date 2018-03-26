@@ -46,7 +46,7 @@ write_copy(fid);
   fprintf(fid,'        reference, CANOPY, null, \n') ;
   fprintf(fid,'        reference, CANOPY, null; \n') ;
 
- % RIBS Center of Gravity
+% RIBS Center of Gravity
  for i = 1 : N.ribs
    fprintf(fid,'reference: RIBS_CG + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.x(i,:)) ;
@@ -55,7 +55,7 @@ write_copy(fid);
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
- 
+
  for i = 1 : N.beam
    fprintf(fid,'reference: BEAM_I + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.I(i,:)) ;
@@ -77,12 +77,11 @@ write_copy(fid);
  % AERO CELL Surface reference - Aero oeriented
  for i = 1 : N.ribs
      fprintf(fid,'reference: AERO + %d, \n', i) ;
-     fprintf(fid,'        reference, RIBS_CG + %d,  0., %9.7f, 0., \n', i, rib.x(i,1)+(pAC-pCG)*rib.chord(i) ) ;
-     fprintf(fid,'        reference, RIBS_CG + %d,  \n', i) ;
-     fprintf(fid,'			2,  0., 0., 1.,  \n') ;
-     fprintf(fid,'			1,  0., 1., 0.,  \n') ;
-     fprintf(fid,'        reference, RIBS_CG + %d, null, \n', i) ;
-     fprintf(fid,'        reference, RIBS_CG + %d, null; \n', i) ;
+     fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.aer(i,:)) ;
+     fprintf(fid,'        reference, AERO_0, euler123,  \n') ;
+     fprintf(fid,'			     %9.7f, %9.7f, 0.,  \n', -rib.th(i), wing.th(i) ) ;
+     fprintf(fid,'        reference, AERO_0, null, \n') ;
+     fprintf(fid,'        reference, AERO_0, null; \n') ;
  end
 
 

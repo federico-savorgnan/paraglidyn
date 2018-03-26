@@ -66,6 +66,13 @@ for i = 1 : N.ribs
     fprintf(fid,'       reference, RIBS_TE + %d, eye; \n',  i) ;
 end
 
+%% AERO POINTS
+for i = 1 : N.ribs
+    fprintf(fid,'structural: AERO + %d, dummy, RIBS_CG + %d, offset, \n', i, i) ;
+    fprintf(fid,'       reference, AERO + %d, null, \n', i) ;
+    fprintf(fid,'       reference, AERO + %d, eye; \n',  i) ;
+end
+
 fclose(fid);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,10 +93,12 @@ i_beam = 0 ;
       fprintf(fid,'                orientation, reference,  RIBS_CG + %d, eye, \n', i+2) ;
       fprintf(fid,'	reference, BEAM_I + %d, eye, \n', i_beam ) ;
       fprintf(fid,'	linear viscoelastic generic, \n' ) ;
-      fprintf(fid,'	diag, EA, GAy, GAz, GJ, EJy, EJz, \n' ) ;
-      fprintf(fid,'	proportional, damp_fact,  \n' ) ;
+      fprintf(fid,'	diag, %.1e, %.1e, %.1e, %.1e, %.1e, %.1e, \n', beam_stiff ) ;
+      fprintf(fid,'	proportional, %6.4f,  \n', damp_fact ) ;
       fprintf(fid,'	reference, BEAM_II + %d, eye, \n', i_beam ) ;
-      fprintf(fid,'	same; \n' ) ;
+      fprintf(fid,'	linear viscoelastic generic, \n' ) ;
+      fprintf(fid,'	diag, %.1e, %.1e, %.1e, %.1e, %.1e, %.1e, \n', beam_stiff ) ;
+      fprintf(fid,'	proportional, %6.4f;  \n', damp_fact ) ;
   end
 
   %% AERO BEAM 2 elements
@@ -110,19 +119,8 @@ i_beam = 0 ;
   %     fprintf(fid,'  	unsteady, bielawa,     \n');
   %     fprintf(fid,'  	#theodorsen, c81, NACA0012,         \n');
   %     fprintf(fid,'  	c81, NACA0012,      \n');
-      fprintf(fid,'     jacobian, 1; \n');
+      fprintf(fid,'     jacobian, yes; \n');
   end
-
-
-
-
-
-
-  %% AERO BODY elements
-
-
-
-
 
 
   %% RIBS Body
@@ -130,8 +128,7 @@ i_beam = 0 ;
       fprintf(fid,'body: RIBS_CG + %d, RIBS_CG + %d,   \n', i, i);
       fprintf(fid,'     %6.4f, \n', rib.mass);
       fprintf(fid,'     reference, RIBS_CG + %d, null,    \n', i);
-      fprintf(fid,'     eye; \n');
-      %fprintf(fid,'     diag, 1.e-3, 4.e-3, 4.e-3; \n');
+      fprintf(fid,'     diag,  %.3e, %.3e, %.3e ;  \n', rib.Ixx, rib.Iyy, rib.Izz);
   end
 
 
@@ -140,13 +137,13 @@ i_beam = 0 ;
   %% Fake knots body
   for i = 1 : length(knot)
       fprintf(fid,'body: LINE_A + KNOT_1 + %d, LINE_A + KNOT_1 + %d,   \n', i, i);
-      fprintf(fid,'     %6.4f, \n', 0.00001);
+      fprintf(fid,'     %6.4f, \n', 0.001);
       fprintf(fid,'     reference, LINE_A + KNOT_1 + %d, null,    \n', i);
       %fprintf(fid,'     diag, 1.e-6, 1.e-6, 1.e-6; \n');
       fprintf(fid,'     eye; \n');
 
       fprintf(fid,'body: LINE_B + KNOT_1 + %d, LINE_B + KNOT_1 + %d,   \n', i, i);
-      fprintf(fid,'     %6.4f, \n', 0.00001);
+      fprintf(fid,'     %6.4f, \n', 0.001);
       fprintf(fid,'     reference, LINE_B + KNOT_1 + %d, null,    \n', i);
       %fprintf(fid,'     diag, 1.e-6, 1.e-6, 1.e-6; \n');
       fprintf(fid,'     eye; \n');
@@ -161,18 +158,18 @@ i_beam = 0 ;
       ij = knot(j).nrib(i);
 
     % LINE A
-      fprintf(fid,'joint: LINE_A  + KNOT_1 + %d, rod, \n', 100*j+i);
+      fprintf(fid,'joint: LINE_A   + %d, rod, \n', 100*j+i);
       fprintf(fid,' 	LINE_A + KNOT_1 + %d, position, reference, LINE_A + KNOT_1 + %d, null, \n', j, j ) ;
       fprintf(fid,' 	RIBS_CG + %d, position, reference, LINE_A + %d, null, \n',ij,ij) ;
       fprintf(fid,' 	from nodes, \n') ;
-      fprintf(fid,' 	double linear viscoelastic, .1, 1.e-4, -1., stiff_A, 1e-2, second damping, damp_A; \n', stiff_A, damp_A);
+      fprintf(fid,' 	double linear viscoelastic, .1, 1.e-4, -1., stiff_A, 1e-2, second damping, damp_A; \n');
 
      % LINE B
-      fprintf(fid,'joint: LINE_B  + KNOT_1 + %d, rod, \n', 100*j+i);
+      fprintf(fid,'joint: LINE_B   + %d, rod, \n', 100*j+i);
       fprintf(fid,' 	LINE_B + KNOT_1 + %d, position, reference, LINE_B + KNOT_1 + %d, null, \n', j, j ) ;
       fprintf(fid,' 	RIBS_CG + %d, position, reference, LINE_B + %d, null, \n',ij,ij) ;
       fprintf(fid,' 	from nodes, \n') ;
-      fprintf(fid,' 	double linear viscoelastic, .1, 1.e-4, -1., stiff_B, 1e-2, second damping, damp_B; \n', stiff_B, damp_B);
+      fprintf(fid,' 	double linear viscoelastic, .1, 1.e-4, -1., stiff_B, 1e-2, second damping, damp_B; \n');
      end
   end
 
@@ -185,27 +182,27 @@ i_beam = 0 ;
       fprintf(fid,'	PILOT, position, reference, CARAB + 1, null, \n' ) ;
       fprintf(fid,'	LINE_A + KNOT_1 + %d, position, reference, LINE_A + KNOT_1 + %d, null, \n',i,i) ;
       fprintf(fid,'	from nodes, \n') ;
-      fprintf(fid,'	double linear viscoelastic, .1, 1.e-4, -1., stiff_A, 1e-2, second damping, damp_A; \n', stiff_A, damp_A);
+      fprintf(fid,'	double linear viscoelastic, .1, 1.e-4, -1., stiff_A, 1e-2, second damping, damp_A; \n');
    % LINE B
      fprintf(fid,'joint: LINE_B + KNOT_1 + %d, rod, \n', i);
      fprintf(fid,'	PILOT, position, reference, CARAB + 1, null, \n' );
      fprintf(fid,'	LINE_B + KNOT_1 + %d, position, reference, LINE_B + KNOT_1 + %d, null, \n', i, i);
      fprintf(fid,'	from nodes, \n') ;
-     fprintf(fid,'	double linear viscoelastic, .1, 1.e-4, -1., stiff_B, 1e-2, second damping, damp_B; \n', stiff_B, damp_B);
+     fprintf(fid,'	double linear viscoelastic, .1, 1.e-4, -1., stiff_B, 1e-2, second damping, damp_B; \n');
   end
   for i = length(knot)/2 + 1 : length(knot)
-     % LINE A
-       fprintf(fid,'joint: LINE_A + KNOT_1 + %d, rod, \n', i);
-       fprintf(fid,'	PILOT, position, reference, CARAB + 2, null, \n' ) ;
-       fprintf(fid,'	LINE_A + KNOT_1 + %d, position, reference, LINE_A + KNOT_1 + %d, null, \n',i,i) ;
-       fprintf(fid,'	from nodes, \n') ;
-       fprintf(fid,'	double linear viscoelastic, .1, 1.e-4, -1., stiff_A, 1e-2, second damping, damp_A; \n', stiff_A, damp_A);
+    % LINE A
+      fprintf(fid,'joint: LINE_A + KNOT_1 + %d, rod, \n', i);
+      fprintf(fid,'	PILOT, position, reference, CARAB + 2, null, \n' ) ;
+      fprintf(fid,'	LINE_A + KNOT_1 + %d, position, reference, LINE_A + KNOT_1 + %d, null, \n',i,i) ;
+      fprintf(fid,'	from nodes, \n') ;
+      fprintf(fid,'	double linear viscoelastic, .1, 1.e-2, -1., stiff_A, 1e-2, second damping, damp_A; \n');
     % LINE B
       fprintf(fid,'joint: LINE_B + KNOT_1 + %d, rod, \n', i);
       fprintf(fid,'	PILOT, position, reference, CARAB + 2, null, \n' );
       fprintf(fid,'	LINE_B + KNOT_1 + %d, position, reference, LINE_B + KNOT_1 + %d, null, \n', i, i);
       fprintf(fid,'	from nodes, \n') ;
-      fprintf(fid,'	double linear viscoelastic, .1, 1.e-4, -1., stiff_B, 1e-2, second damping, damp_B; \n', stiff_B, damp_B);
+      fprintf(fid,'	double linear viscoelastic, .1, 1.e-2, -1., stiff_B, 1e-2, second damping, damp_B; \n');
   end
 
 

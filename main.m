@@ -50,6 +50,7 @@ if ~exist(model_name)
     data_store
   %% Geometry generation
     geom_eng
+    plot_model
 
   %% Main analysis deck files
     mdl_canopy

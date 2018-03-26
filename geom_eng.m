@@ -94,9 +94,9 @@ disp('Computing geometry points')
 
 
         for i = 1 : N.ribs
-          ref = wing.x(i,2) ;
+          ref = wing.x(i,2);
             fun = @(x)esse(x,vault,ref) ;
-            rib.x(i,2) = fsolve(fun, ref) ;
+            rib.x(i,2) = fsolve(fun, 0.) ;
         end
         [ rib.x(:,3), rib.th ] =  ellipse(rib.x(:,2), vault);
           rib.x(:,3) = rib.x(:,3) - vault.b ;
@@ -106,7 +106,7 @@ disp('Computing geometry points')
         for i = 1 : N.beam
           ref = wing.I(i,2) ;
             fun = @(x)esse(x,vault,ref) ;
-            rib.I(i,2) = fsolve(fun, ref) ;
+            rib.I(i,2) = fsolve(fun, 0.) ;
         end
         [ rib.I(:,3), rib.I_th ] =  ellipse(rib.I(:,2), vault);
           rib.I(:,3) = rib.I(:,3) - vault.b ;
@@ -116,7 +116,7 @@ disp('Computing geometry points')
         for i = 1 : N.beam
           ref = wing.II(i,2) ;
             fun = @(x)esse(x,vault,ref) ;
-            rib.II(i,2) = fsolve(fun, ref) ;
+            rib.II(i,2) = fsolve(fun, 0.) ;
         end
         [ rib.II(:,3), rib.II_th ] =  ellipse(rib.II(:,2), vault);
           rib.II(:,3) = rib.II(:,3) - vault.b ;
@@ -132,15 +132,13 @@ disp('Computing geometry points')
         rib.TE(:,2) = rib.x(:,2) ;
         rib.TE(:,3) = rib.x(:,3) ;
 
+        rib.aer(:,1) = rib.LE(:,1) + 0.5 * rib.chord ;
+        rib.aer(:,2) = rib.x(:,2) ;
+        rib.aer(:,3) = rib.x(:,3) ;
 
 %---------------------------------------------------------
 
-
-
-%--------------------------------------------------------------
-
-
-
+%---------------------------------------------------------
 
 %% LINES anchor points
   % LINE A
@@ -151,6 +149,15 @@ disp('Computing geometry points')
     rib.xB(:,1) = pB' .* rib.chord + rib.LE(:,1) ;
     rib.xB(:,2) = rib.x(:,2) ;
     rib.xB(:,3) = rib.x(:,3) ;
+
+    % LINE A
+      wing.xA(:,1) = pA' .* wing.chord + wing.LE(:,1) ;
+      wing.xA(:,2) = wing.x(:,2) ;
+      wing.xA(:,3) = wing.x(:,3) ;
+    % LINE B
+      wing.xB(:,1) = pB' .* wing.chord + wing.LE(:,1) ;
+      wing.xB(:,2) = wing.x(:,2) ;
+      wing.xB(:,3) = wing.x(:,3) ;
 
 %% AERO points
     rib.xaero = 0.5 * (rib.LE + rib.TE);
@@ -185,160 +192,5 @@ disp('Computing geometry points')
   end
 
 
-
-
-
-  disp('Plotting 3D view');
-% PLOT INPUT GEOMETRY
-  figure(1)
-    hold on
-    grid on
-    axis equal
-    view( -25, 15 );
-  % Right wing
-    plot3(rib.LE(:,1),rib.LE(:,2),rib.LE(:,3) ,'-r');
-    plot3(rib.TE(:,1),rib.TE(:,2),rib.TE(:,3) ,'-r');
-    plot3(rib.xA(:,1),rib.xA(:,2),rib.xA(:,3) ,'ok');
-    plot3(rib.xB(:,1),rib.xB(:,2),rib.xB(:,3) ,'ok');
-    plot3(rib.x(:,1),rib.x(:,2),rib.x(:,3) ,'-*k');
-    plot3(pAC*rib.chord(:,1)+rib.LE(:,1),rib.x(:,2),rib.x(:,3) ,'*b');
-
-  % RIBS lines
-    for i = 1 : N.ribs
-      text(rib.LE(i,1),rib.LE(i,2),rib.LE(i,3),num2str(i), 'fontsize', 16)
-      plot3([rib.LE(i,1), rib.TE(i,1)], [rib.LE(i,2), rib.TE(i,2)], [rib.LE(i,3), rib.TE(i,3)],'-r');
-    end
-
-  % Knots
-      for i = 1 : length(knot)
-          plot3(knot(i).xA(1), knot(i).xA(2), knot(i).xA(3),'ob');
-          plot3(knot(i).xB(1), knot(i).xB(2), knot(i).xB(3),'ob');
-      end
-
-  % Rope TOP Lines
-  for i = 1 :  length(knot)
-    for j = 1 : length(knot(i).nrib)
-      plop.line_A = plot3( [rib.xA(knot(i).nrib(j),1), knot(i).xA(1)], [rib.xA(knot(i).nrib(j),2), knot(i).xA(2)], [rib.xA(knot(i).nrib(j),3), knot(i).xA(3)] ,'--b');
-      plop.line_B = plot3( [rib.xB(knot(i).nrib(j),1), knot(i).xB(1)], [rib.xB(knot(i).nrib(j),2), knot(i).xB(2)], [rib.xB(knot(i).nrib(j),3), knot(i).xB(3)] ,'--b');
-    end
-  end
-
-  % Rope LOW Lines
-  for i = 1 : length(knot)/2
-      plop.line_A1L = plot3( [pilot.x(1), knot(i).xA(1)], [pilot.x(2)-pilot.d/2, knot(i).xA(2)], [pilot.x(3)+pilot.h, knot(i).xA(3)] ,'--k');
-      plop.line_B1L = plot3( [pilot.x(1), knot(i).xB(1)], [pilot.x(2)-pilot.d/2, knot(i).xB(2)], [pilot.x(3)+pilot.h, knot(i).xB(3)] ,'--k');
-  end
-  for i = length(knot)/2 + 1 : length(knot)
-      plop.line_A1R = plot3( [pilot.x(1), knot(i).xA(1)], [pilot.x(2)+pilot.d/2, knot(i).xA(2)], [pilot.x(3)+pilot.h, knot(i).xA(3)] ,'--k');
-      plop.line_B1R = plot3( [pilot.x(1), knot(i).xB(1)], [pilot.x(2)+pilot.d/2, knot(i).xB(2)], [pilot.x(3)+pilot.h, knot(i).xB(3)] ,'--k');
-  end
-
-
-
-
-  % Pilot and Carabiners
-    plop.pilot = plot3(pilot.x(1),pilot.x(2),pilot.x(3),'^k');
-    plop.l_carab = plot3(pilot.x(1),pilot.x(2)-pilot.d/2,pilot.x(3)+pilot.h,'sr');
-    plop.r_carab = plot3(pilot.x(1),pilot.x(2)+pilot.d/2,pilot.x(3)+pilot.h,'sg');
-
-%legend([ plop.x, plop.ac, plop.line, plop.le, plop.pilot, plop.l_carab, plop.r_carab ], ...
-%'Ribs CG', 'Ribs AC', 'Lines', 'Wing surface', 'Pilot CG', 'Left Carabiner', 'Right Carabinier');
-
-%{
-
-figure(2)
-  hold on
-  %grid on
-  axis equal
-  lv = 0.5;
-  im_ex=imread('exampl.jpg');
-  imshow(im_ex);
-  f_sc = - 0.5*size(im_ex,2) / rib.x(1,2) ;
-
-% Mid wing line
-  plot((rib.x(:,2)-rib.x(1,2))*f_sc, -rib.x(:,3)*f_sc, '*-r');
-% Normal wing points
-  plot((rib.x(:,2)-rib.x(1,2))*f_sc - lv*sin(rib.th)*f_sc, -rib.x(:,3)*f_sc - lv*cos(rib.th)*f_sc, '*r' )
-
-%}
-
-  figure(3)
-    hold on
-    grid on
-    axis equal
-
-  % Mid wing line
-    plot(rib.x(:,2), rib.x(:,3), '*-r');
-
-    % Rope TOP Lines
-    for i = 1 :  length(knot)
-      for j = 1 : length(knot(i).nrib)
-          plot( [rib.xA(knot(i).nrib(j),2), knot(i).xA(2)], [rib.xA(knot(i).nrib(j),3), knot(i).xA(3)] ,'-ob');
-          plot( [rib.xB(knot(i).nrib(j),2), knot(i).xB(2)], [rib.xB(knot(i).nrib(j),3), knot(i).xB(3)] ,'-ob');
-      end
-    end
-
-    % Rope LOW Lines
-    for i = 1 : length(knot)/2
-       plot( [pilot.x(2)-pilot.d/2, knot(i).xA(2)], [pilot.x(3)+pilot.h, knot(i).xA(3)] ,'-ok');
-       plot( [pilot.x(2)-pilot.d/2, knot(i).xB(2)], [pilot.x(3)+pilot.h, knot(i).xB(3)] ,'-ok');
-    end
-    for i = length(knot)/2 + 1 : length(knot)
-        plot( [pilot.x(2)+pilot.d/2, knot(i).xA(2)], [pilot.x(3)+pilot.h, knot(i).xA(3)] ,'-ok');
-        plot( [pilot.x(2)+pilot.d/2, knot(i).xB(2)], [pilot.x(3)+pilot.h, knot(i).xB(3)] ,'-ok');
-    end
-
-    figure('Position',[200 200 1500 600])
-    hold on
-    grid on
-    axis equal
-    plot(wing.x(:,2), wing.x(:,1))
-    plot(wing.LE(:,2), wing.LE(:,1))
-    plot(wing.TE(:,2), wing.TE(:,1))
-    legend('Beam', 'LE', 'TE')
-
-    figure('Position',[200 200 1500 600])
-    hold on
-    grid on
-    axis equal
-    plot(wing.x(:,2), zeros(1,N.ribs),'ko')
-    plot(rib.x(:,2), rib.x(:,3), 'ro')
-
-    figure('Position',[200 200 1500 600])
-    hold on
-    grid on
-    plot(wing.th)
-    plot(wing.th_LE)
-    plot(wing.th_TE)
-    legend('Beam', 'LE', 'TE')
-
-    figure(4)
-    hold on
-    grid on
-    axis equal
-    plot3(rib.x(:,1), rib.x(:,2), rib.x(:,3), 'o-k')
-    plot3(wing.LE(:,1), wing.LE(:,2), wing.LE(:,3),'r')
-    plot3(wing.TE(:,1), wing.TE(:,2), wing.TE(:,3),'r')
-    plot3(rib.LE(:,1), rib.LE(:,2), rib.LE(:,3),'r')
-    plot3(rib.TE(:,1), rib.TE(:,2), rib.TE(:,3),'r')
-    plot3(rib.I(:,1), rib.I(:,2), rib.I(:,3),'r*')
-    plot3(rib.II(:,1), rib.II(:,2), rib.II(:,3),'b*')
-
-
-
-for i = 1 : N.ribs
-  lp(i) = (  - pilot.x(3) + rib.x(i,3) + rib.x(i,2)/tan(rib.th(i)) ) .* sin(rib.th(i));
-end
-
-figure('Position',[200 200 1500 600])
-subplot(1,2,1)
-hold on
-grid on
-axis equal
-plot(rib.x(:,2), rib.x(:,3), 'g','LineWidth',2) ;
-plot(0,pilot.x(3), 'or') ;
-
-subplot(1,2,2)
-hold on
-grid on
-plot(rib.x(:,2), lp)
+% ==========================================================================================
+% ==========================================================================================
