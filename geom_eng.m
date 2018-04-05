@@ -166,7 +166,7 @@ disp('Computing geometry points')
 
 
   %% TWIST law (TODO)
-  rib.twist = twist(rib.x(:,2), rib.tw0, rib.tw1) ;
+  rib.twist = twist(wing.x(:,2), rib.tw0, rib.tw1) ;
 
 
   % Knots on Lines

@@ -26,7 +26,7 @@
 
 %% Canopy shape data
 %% CELL NUMBER
-N.beam = 6 ;
+N.beam = 2 ;
 N.ribs = 1 + 2*N.beam ;         % Wing number of Ribs
 N.cell = N.ribs - 1 ;   % Wing cell
 
@@ -41,18 +41,18 @@ vault.type = 0 ;    %  correction type (exponent)
 wing.span = 13 ;
 % % Canopy Leading Edge shape
 le.a = 7.09 ;       % m - semiaxis ellipse
-le.b = 2.53 ;        % m - semiaxis ellipse
+le.b = 1.53 ;        % m - semiaxis ellipse
 le.xm = wing.span ;     % m - semi-span
 le.x1 = 3.91 ;       % m - Canopy heigh
-le.c0 = 0.2 ;      % m - correction strenght
-le.type = 2 ;      %  correction type (exponent)
+le.c0 = 0. ;      % m - correction strenght
+le.type = 0 ;      %  correction type (exponent)
 
 % % Canopy Trailing Edge shape
-te.a = 8.09 ;        % m - semiaxis ellipse
-te.b = 1.23 ;         % m - semiaxis ellipse
+te.a = 7.09 ;        % m - semiaxis ellipse
+te.b = 1.53 ;         % m - semiaxis ellipse
 te.xm = wing.span ;    % m - semi-span
 te.x1 = 3.91 ;       % m - Canopy heigh
-te.c0 = 0.1 ;      % m - correction strenght
+te.c0 = 0. ;      % m - correction strenght
 te.type = 0 ;      %  correction type (exponent)
 
 % RIBS twist
@@ -73,8 +73,8 @@ pilot.Ncyc = 4 ;
 pilot.type = 'forever'  ;
 
 % Special points chord position
-pCG = 0.25 ;   % Adimensional chord [0-1]
-pAC = 0.3 ;   % Adimensional chord [0-1]
+pCG = 0.2 ;   % Adimensional chord [0-1]
+pAC = 0.25 ;   % Adimensional chord [0-1]
 pA  = linspace(0.1,0.1,N.ribs/2+1) ;   % Adimensional chord [0-1]
 pA = [pA, fliplr(pA(1:end-1))];
 pB  = linspace(.7,0.8,N.ribs/2+1) ;  % Adimensional chord [0-1]
@@ -102,19 +102,20 @@ stiff_B = 1.e6;        % N/m - lines stiffness
 damp_A = 1000;        % Ns/m - lines damp
 damp_B = 1000.;        % Ns/m - lines damp
 
-stiff_fact = 10.;
-EA = 1.e6 ;
-GAy = 1.e6 ;
-GAz = 1.e6 ;
-GJ = 1.e8 ;
-EJy = 1.e7 ;
-EJz = 1.e7 ;
+BEAM_TYPE = 3 ;
+stiff_fact = 0.01;
+EA = 1.e9 ;
+GAy = 1.e9 ;
+GAz = 1.e9 ;
+GJ = 1.e5 ;
+EJy = 1.e5 ;
+EJz = 1.e5 ;
 beam_stiff = stiff_fact * [ EA, GAy, GAz, GJ, EJy, EJz] ;
-damp_fact = 0.1 ;
+damp_fact = 0.01 ;
 
 in = 1 ;
 knot(in).r = 0.05 ;
-knot(in).nrib = [ 1:2:N.beam+1] ;
+knot(in).nrib = [ 1:N.beam+1] ;
 
 %in = in + 1 ;
 %knot(in).r = 0.4 ;
@@ -130,12 +131,12 @@ for i = 1 : lkn
 end
 
 
-aer_int_pts = 4 ;    % N Aero integration points
+aer_int_pts = 1 ;    % N Aero integration points
 
 %% Simulation initial condition
 ic.V_inf = 15.;                % m/s - Canopy Velocity m/s
-ic.Eff = 7.25;                     % Efficiency Vx/Vz
-ic.pre_pitch = -7.25 * pi/180 ;   % Positive nose-up
+ic.Eff = 5.25;                     % Efficiency Vx/Vz
+ic.pre_pitch = -10. * pi/180 ;   % Positive nose-up
 
 %% SAVE INPUT DATA to FILE
 save([model_name, '/input_data.mat'], 'vault', 'le', 'te', 'pilot', 'N', 'ic', 'rib', 'knot');

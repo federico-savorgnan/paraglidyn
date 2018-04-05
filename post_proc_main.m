@@ -12,9 +12,9 @@ time = ncread(filename, 'time');
 
 listmn = ['                                            ',
           '   #----------------------------------#     ',
-          '   |   1.  Pilot Position             |     ',
+          '   |   1.  Pilot                      |     ',
           '   |   2.  Central Box orientation    |     ',
-          '   |   3.  Pilot Velocity             |     ',
+          '   |   3.  Aero elm                   |     ',
           '   |   4.  Pilot Efficiency           |     ',
           '   |   5.  Wing Shape                 |     ',
           '   |   6.  Lines Forces               |     ',
@@ -33,12 +33,15 @@ while ~exit
   M = input('  Insert choice: ') ;
   if M == 1
     [Pilot_x] = pilot_x(filename, ID_plot, N) ;
+    [Pilot_v] = pilot_v(filename, ID_plot, time) ;
+    [Pilot_Eff] = pilot_Eff(filename, ID_plot, time) ;
   elseif M == 2
     [Pilot_E] = pilot_E(filename, ID_plot, N, time) ;
   elseif M == 3
-    [Pilot_v] = pilot_v(filename, ID_plot, time) ;
+    
   elseif M == 4
-    [Pilot_Eff] = pilot_Eff(filename, ID_plot, time) ;
+
+      [Pilot_Eff] = pilot_Eff(filename, ID_plot, time) ;
   elseif M == 5
      wing_shape(filename, ID_plot, N, time) ;
   elseif M == 6
