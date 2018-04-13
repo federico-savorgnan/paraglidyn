@@ -48,69 +48,38 @@ write_copy(fid);
 
 % RIBS Center of Gravity
  for i = 1 : N.ribs
-   fprintf(fid,'reference: RIBS_CG_0 + %d, \n', i) ;
+   fprintf(fid,'reference: RIBS_CG + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.x(i,:)) ;
    fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-   fprintf(fid,'			     0., %9.7f, 0. ,  \n', -rib.th(i)) ;
+   fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.th(i), 0. ) ;
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
 
  for i = 1 : N.beam
-   fprintf(fid,'reference: BEAM_I_0 + %d, \n', i) ;
+   fprintf(fid,'reference: BEAM_I + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.I(i,:)) ;
    fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-   fprintf(fid,'			     0., %9.7f, 0.,  \n', -rib.I_th(i)) ;
+   fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.I_th(i), 0.) ;
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
 
  for i = 1 : N.beam
-   fprintf(fid,'reference: BEAM_II_0 + %d, \n', i) ;
+   fprintf(fid,'reference: BEAM_II + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.II(i,:)) ;
    fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-   fprintf(fid,'			     0., %9.7f, 0.,  \n', -rib.II_th(i) ) ;
+   fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.II_th(i), 0.) ;
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
-
- % RIBS Center of Gravity
-  for i = 1 : N.ribs
-    fprintf(fid,'reference: RIBS_CG + %d, \n', i) ;
-    fprintf(fid,'        reference, RIBS_CG_0 + %d, null, \n', i) ;
-    fprintf(fid,'        reference, RIBS_CG_0 + %d, euler123, \n', i) ;
-    fprintf(fid,'			     0., 0., %9.7f,  \n',  wing.th(i) ) ;
-    fprintf(fid,'        reference, BEAM_0, null, \n') ;
-    fprintf(fid,'        reference, BEAM_0, null; \n') ;
-  end
-
-  for i = 1 : N.beam
-    fprintf(fid,'reference: BEAM_I + %d, \n', i) ;
-    fprintf(fid,'        reference, BEAM_I_0 + %d, null, \n', i) ;
-    fprintf(fid,'        reference, BEAM_I_0 + %d, euler123, \n', i) ;
-    fprintf(fid,'			     0., 0., %9.7f,  \n', wing.I_th(i) ) ;
-    fprintf(fid,'        reference, BEAM_0, null, \n') ;
-    fprintf(fid,'        reference, BEAM_0, null; \n') ;
-  end
-
-  for i = 1 : N.beam
-    fprintf(fid,'reference: BEAM_II + %d, \n', i) ;
-    fprintf(fid,'        reference, BEAM_II_0 + %d, null, \n', i) ;
-    fprintf(fid,'        reference, BEAM_II_0 + %d, euler123, \n', i) ;
-    fprintf(fid,'			     0., 0., %9.7f,  \n',  wing.II_th(i) ) ;
-    fprintf(fid,'        reference, BEAM_0, null, \n') ;
-    fprintf(fid,'        reference, BEAM_0, null; \n') ;
-  end
-
-
-
 
  % AERO CELL Surface reference - Aero oeriented
  for i = 1 : N.ribs
      fprintf(fid,'reference: AERO + %d, \n', i) ;
      fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.aer(i,:)) ;
      fprintf(fid,'        reference, AERO_0, euler123,  \n') ;
-     fprintf(fid,'			     %9.7f, %9.7f, 0.,  \n', -rib.th(i), wing.th(i) ) ;
+     fprintf(fid,'			     %9.7f, %9.7f, 0.,  \n', -rib.th(i), 0. ) ;
      fprintf(fid,'        reference, AERO_0, null, \n') ;
      fprintf(fid,'        reference, AERO_0, null; \n') ;
  end
@@ -121,16 +90,16 @@ write_copy(fid);
   for i = 1 : N.ribs
   % (LE) LEADING EDGE
     fprintf(fid,'reference: RIBS_LE + %d, \n', i) ;
-    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.LE(i,:) ) ;
+    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.LE(i,:)) ;
     fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-    fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.th(i), wing.th_LE(i) ) ;
+    fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.th(i), 0. ) ;
     fprintf(fid,'        reference, CANOPY, null, \n') ;
     fprintf(fid,'        reference, CANOPY, null; \n') ;
   % (TE) TRAILING EDGE
     fprintf(fid,'reference: RIBS_TE + %d, \n', i) ;
-    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.TE(i,:) ) ;
+    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.TE(i,:)) ;
     fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-    fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.th(i), wing.th_TE(i) ) ;
+    fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.th(i), 0. ) ;
     fprintf(fid,'        reference, CANOPY, null, \n') ;
     fprintf(fid,'        reference, CANOPY, null; \n') ;
   end
@@ -141,13 +110,13 @@ write_copy(fid);
  for i = 1 : N.ribs
  % LINE A
    fprintf(fid,'reference: LINE_A + %d, \n', i) ;
-   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.xA(i,:) ) ;
+   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.xA(i,:)) ;
    fprintf(fid,'        reference, RIBS_CG + %d, eye,  \n', i) ;
    fprintf(fid,'        reference, CANOPY, null, \n') ;
    fprintf(fid,'        reference, CANOPY, null; \n') ;
  % LINE B
    fprintf(fid,'reference: LINE_B + %d, \n', i) ;
-   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.xB(i,:) ) ;
+   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.xB(i,:)) ;
    fprintf(fid,'        reference, RIBS_CG + %d, eye,  \n', i) ;
    fprintf(fid,'        reference, CANOPY, null, \n') ;
    fprintf(fid,'        reference, CANOPY, null; \n') ;
@@ -158,13 +127,13 @@ write_copy(fid);
  for i = 1 : length(knot)
  % LINE A
    fprintf(fid,'reference: LINE_A + KNOT_1 + %d, \n', i) ;
-   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', knot(i).xA ) ;
+   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', knot(i).xA) ;
    fprintf(fid,'        reference, CANOPY, eye,  \n') ;
    fprintf(fid,'        reference, CANOPY, null, \n') ;
    fprintf(fid,'        reference, CANOPY, null; \n') ;
  % LINE B
    fprintf(fid,'reference: LINE_B + KNOT_1 + %d, \n', i) ;
-   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', knot(i).xB ) ;
+   fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', knot(i).xB) ;
    fprintf(fid,'        reference, CANOPY, eye,  \n') ;
    fprintf(fid,'        reference, CANOPY, null, \n') ;
    fprintf(fid,'        reference, CANOPY, null; \n') ;
