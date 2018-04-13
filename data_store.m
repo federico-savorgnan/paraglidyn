@@ -26,7 +26,7 @@
 
 %% Canopy shape data
 %% CELL NUMBER
-N.beam = 20 ; 
+N.beam = 20 ;
 N.ribs = 1 + 2*N.beam ;         % Wing number of Ribs
 N.cell = N.ribs - 1 ;   % Wing cell
 
@@ -61,15 +61,15 @@ rib.tw1 = 5. * pi/180 ;  %  Tip wing
 % Pilot position
 pilot.x(1) = 0.2 * (le.b + te.b) ;    % m - Pilot X position
 pilot.x(2) = 0. ;                    % m - Pilot Y position
-pilot.x(3) = -6.7 ;                  % m - Pilot Z position
+pilot.x(3) = -7. ;                  % m - Pilot Z position
 pilot.d = 0.4 ;     % m - Carabiner horizz distance
 pilot.h = 0.3 ;     % m - Carabiner - pilot_CG vert distance
 % Pilot movement
-pilot.offset = 0.005 ;
+pilot.offset = 0.01 ;
 pilot.t0 = 1. ;
 pilot.Dt = 0. ;
 pilot.tau = 5. ;
-pilot.Ncyc = 4 ;
+pilot.Ncyc = 1 ;
 pilot.type = 'one'  ;
 
 % Special points chord position
