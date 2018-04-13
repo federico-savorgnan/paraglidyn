@@ -177,7 +177,7 @@ for i = ceil(N.ribs/2):N.ribs
   text(rib.x(i,2), rib.x(i,3),num2str(i), 'fontsize', 14)
 end
 
-axis([ 0., 1.1*wing.span/2, min(z0(:,2)), 0.5 ])
+axis([ 0., 1.1*wing.span/2, min([z0(:,2); pilot.x(3)]), 0.5 ])
 legend([leg_wing, leg_line, leg_norm, leg_pilot], 'Wing profile', 'Rope lines', 'Wing normal dir.', 'Pilot', 'Location', 'SouthEast')
 
 

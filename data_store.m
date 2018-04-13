@@ -61,16 +61,16 @@ rib.tw1 = 5. * pi/180 ;  %  Tip wing
 % Pilot position
 pilot.x(1) = 0.2 * (le.b + te.b) ;    % m - Pilot X position
 pilot.x(2) = 0. ;                    % m - Pilot Y position
-pilot.x(3) = -7. ;                  % m - Pilot Z position
+pilot.x(3) = -7.5 ;                  % m - Pilot Z position
 pilot.d = 0.4 ;     % m - Carabiner horizz distance
 pilot.h = 0.3 ;     % m - Carabiner - pilot_CG vert distance
 % Pilot movement
-pilot.offset = 0.01 ;
+pilot.offset = 0.05 ;
 pilot.t0 = 1. ;
 pilot.Dt = 0. ;
 pilot.tau = 5. ;
 pilot.Ncyc = 1 ;
-pilot.type = 'one'  ;
+pilot.type = 'forever'  ;
 
 % Special points chord position
 pCG = 0.3 ;   % Adimensional chord [0-1]
