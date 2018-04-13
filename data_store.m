@@ -26,7 +26,7 @@
 
 %% Canopy shape data
 %% CELL NUMBER
-N.beam = 20 ; %%
+N.beam = 20 ; 
 N.ribs = 1 + 2*N.beam ;         % Wing number of Ribs
 N.cell = N.ribs - 1 ;   % Wing cell
 
