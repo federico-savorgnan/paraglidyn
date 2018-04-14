@@ -13,11 +13,11 @@ function [d1, d2, e1, e2] = joint_x(filename, ID_plot, N, time)
       plot(time', d1(2,:), 'g');
       plot(time', d1(3,:), 'b');
 
-        d2 = ncread(filename, ['elem.beam.', num2str(4e5+i),'.nu_II']);
+      d2 = ncread(filename, ['elem.beam.', num2str(4e5+i),'.nu_II']);
       plot(time', d2(1,:), 'r');
       plot(time', d2(2,:), 'g');
       plot(time', d2(3,:), 'b');
-      d1
+
 
     end
 

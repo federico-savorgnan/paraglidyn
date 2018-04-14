@@ -26,10 +26,10 @@
 
 %% Canopy shape data
 %% CELL NUMBER
-N.beam = 20 ;
+N.beam = 12 ;
 N.ribs = 1 + 2*N.beam ;         % Wing number of Ribs
-N.cell = N.ribs - 1 ;   % Wing cell
-
+N.box = N.ribs - 1 ;   % Wing cell
+N.cell = N.box ;   % Wing cell
 % % Canopy Vault shape
 vault.a = 6.09 ;      % m - semiaxis ellipse
 vault.b = 5.23 ;     % m -semiaxis ellipse
@@ -65,8 +65,8 @@ pilot.x(3) = -7.5 ;                  % m - Pilot Z position
 pilot.d = 0.4 ;     % m - Carabiner horizz distance
 pilot.h = 0.3 ;     % m - Carabiner - pilot_CG vert distance
 % Pilot movement
-pilot.offset = 0.05 ;
-pilot.t0 = 1. ;
+pilot.offset = 0.02 ;
+pilot.t0 = 10. ;
 pilot.Dt = 0. ;
 pilot.tau = 5. ;
 pilot.Ncyc = 1 ;
@@ -74,7 +74,7 @@ pilot.type = 'forever'  ;
 
 % Special points chord position
 pCG = 0.3 ;   % Adimensional chord [0-1]
-pAC = 0.3 ;   % Adimensional chord [0-1]
+pAC = 0.25 ;   % Adimensional chord [0-1]
 pA  = linspace(0.,0.1,N.ribs/2+1) ;   % Adimensional chord [0-1]
 pA = [pA, fliplr(pA(1:end-1))];
 pB  = linspace(1.,0.8,N.ribs/2+1) ;  % Adimensional chord [0-1]
@@ -104,31 +104,22 @@ damp_B = damp_A ;        % Ns/m - lines damp
 
 BEAM_TYPE = 3 ;
 stiff_fact = 1. ;
-EA = 1.e5 ;
-GAy = 1.e4 ;
-GAz = 1.e4 ;
-GJ = 1.e2 ;
-EJy = 1.e3 ;
-EJz = 1.e3 ;
+EA = 1.e4 ;
+GAy = 1.e2 ;
+GAz = 1.e2 ;
+GJ = 1.e1 ;
+EJy = 1.e2 ;
+EJz = 1.e2 ;
 beam_stiff = stiff_fact * [ EA, GAy, GAz, GJ, EJy, EJz] ;
 damp_fact = 0.4 ;
 
-in = 1 ;
-knot(in).r = 0.5 ;
-knot(in).nrib = [ 1:2] ;
 
-in = in + 1 ;
-knot(in).r = 0.4 ;
-knot(in).nrib = [ 3:7] ;
-in = in + 1 ;
-knot(in).r = 0.4 ;
-knot(in).nrib = [ 8:13] ;
-in = in + 1 ;
-knot(in).r = 0.4 ;
-knot(in).nrib = [ 14:17] ;
-in = in + 1 ;
-knot(in).r = 0.4 ;
-knot(in).nrib = [ 18:20] ;
+
+in = 1 ;
+knot(in).r = 0.05 ;
+knot(in).nrib = [ 1:13] ;
+
+% load('connection_table.mat')
 
 
 N.knot = length(knot) ;
@@ -140,7 +131,7 @@ for i = 1 : N.knot
 end
 
 
-aer_int_pts = 1 ;    % N Aero integration points
+N.aer_int_pts = 4 ;    % N Aero integration points
 
 %% Simulation initial condition
 ic.V_inf = 12.2;                % m/s - Canopy Velocity m/s

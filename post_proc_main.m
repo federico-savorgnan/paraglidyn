@@ -23,12 +23,12 @@ listmn = ['                                            ',
           '   #----------------------------------#     ',
           '                                            ' ];
 
-disp(listmn)
-
 exit = 0 ;
 ID_plot = 1 ;
 
 while ~exit
+  clc
+  disp(listmn)
   M = input('  Insert choice: ') ;
   if M == 1
     [Pilot_x] = pilot_x(filename, ID_plot, N) ;
@@ -37,10 +37,9 @@ while ~exit
   elseif M == 2
     [Pilot_E] = pilot_E(filename, ID_plot, N, time) ;
   elseif M == 3
-
+    [Pilot_alfa] = pilot_alfa(filename, ID_plot, N, time) ;
   elseif M == 4
-
-      [Pilot_Eff] = pilot_Eff(filename, ID_plot, time) ;
+    [Pilot_Eff] = pilot_Eff(filename, ID_plot, time) ;
   elseif M == 5
      wing_shape(filename, ID_plot, N, time) ;
   elseif M == 6

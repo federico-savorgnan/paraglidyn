@@ -29,7 +29,6 @@ PILOT = 1 ;
 CARAB = 10 ;
 CANOPY = 1e6 ;
 RIBS_CG = 1e4 ;
-RIBS_CG_0 = 1e5 ;
 RIBS_AC = 2e4 ;
 RIBS_LE = 3e4 ;
 RIBS_TE = 4e4 ;
@@ -38,8 +37,6 @@ AERO_0 = 6e4 ;
 
 BEAM_I = 7e4 ;
 BEAM_II = 8e4;
-BEAM_I_0 = 2e5 ;
-BEAM_II_0 = 3e5;
 BEAM = 4e5 ;
 
 AERO = 8e5 ;
@@ -66,11 +63,8 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
   fprintf(fid,'set: const integer BEAM_0 = %d ;   \n',   BEAM_0) ;
   fprintf(fid,'set: const integer AERO_0 = %d ;   \n',   AERO_0) ;
   fprintf(fid,'set: const integer BEAM_I = %d ;   \n',   BEAM_I) ;
-  fprintf(fid,'set: const integer BEAM_II = %d ;   \n',   BEAM_II) ;
-  fprintf(fid,'set: const integer RIBS_CG_0 = %d ;   \n',   RIBS_CG_0) ;
-  fprintf(fid,'set: const integer BEAM_I_0 = %d ;   \n',   BEAM_I_0) ;
-  fprintf(fid,'set: const integer BEAM_II_0 = %d ;   \n',   BEAM_II_0) ;
-  fprintf(fid,'set: const integer BEAM = %d ;    \n',   BEAM) ;
+  fprintf(fid,'set: const integer BEAM_II = %d ;   \n',  BEAM_II) ;
+  fprintf(fid,'set: const integer BEAM = %d ;    \n',    BEAM) ;
   fprintf(fid,'set: const integer AERO = %d ;    \n',    AERO) ;
   fprintf(fid,'set: const integer LINE_A = %d ;    \n', LINE_A) ;
   fprintf(fid,'set: const integer LINE_B = %d ;    \n', LINE_B) ;
@@ -88,6 +82,6 @@ fid = fopen([model_name, '/paraglide.set'],'w') ;
   fprintf(fid,'set: const real Eff = %6.4f ; \n',        ic.Eff) ;
   fprintf(fid,'set: const real pre_pitch = %6.4f ; \n',  ic.pre_pitch) ;
 
-  fprintf(fid,'set: const integer aer_int_pts =  %d; \n', aer_int_pts) ;
+  fprintf(fid,'set: const integer aer_int_pts =  %d; \n', N.aer_int_pts) ;
 
 fclose(fid);

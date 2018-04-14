@@ -48,60 +48,31 @@ write_copy(fid);
 
 % RIBS Center of Gravity
  for i = 1 : N.ribs
-   fprintf(fid,'reference: RIBS_CG_0 + %d, \n', i) ;
+   fprintf(fid,'reference: RIBS_CG + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.x(i,:)) ;
    fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-   fprintf(fid,'			     0., %9.7f, 0. ,  \n', -rib.th(i)) ;
+   fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.th(i), wing.th(i) ) ;
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
 
  for i = 1 : N.beam
-   fprintf(fid,'reference: BEAM_I_0 + %d, \n', i) ;
+   fprintf(fid,'reference: BEAM_I + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.I(i,:)) ;
    fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-   fprintf(fid,'			     0., %9.7f, 0.,  \n', -rib.I_th(i)) ;
+   fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.I_th(i), wing.I_th(i) ) ;
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
 
  for i = 1 : N.beam
-   fprintf(fid,'reference: BEAM_II_0 + %d, \n', i) ;
+   fprintf(fid,'reference: BEAM_II + %d, \n', i) ;
    fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.II(i,:)) ;
    fprintf(fid,'        reference, BEAM_0, euler123, \n') ;
-   fprintf(fid,'			     0., %9.7f, 0.,  \n', -rib.II_th(i) ) ;
+   fprintf(fid,'			     0., %9.7f, %9.7f,  \n', -rib.II_th(i),  wing.II_th(i) ) ;
    fprintf(fid,'        reference, BEAM_0, null, \n') ;
    fprintf(fid,'        reference, BEAM_0, null; \n') ;
  end
-
- % RIBS Center of Gravity
-  for i = 1 : N.ribs
-    fprintf(fid,'reference: RIBS_CG + %d, \n', i) ;
-    fprintf(fid,'        reference, RIBS_CG_0 + %d, null, \n', i) ;
-    fprintf(fid,'        reference, RIBS_CG_0 + %d, euler123, \n', i) ;
-    fprintf(fid,'			     0., 0., %9.7f,  \n',  wing.th(i) ) ;
-    fprintf(fid,'        reference, BEAM_0, null, \n') ;
-    fprintf(fid,'        reference, BEAM_0, null; \n') ;
-  end
-
-  for i = 1 : N.beam
-    fprintf(fid,'reference: BEAM_I + %d, \n', i) ;
-    fprintf(fid,'        reference, BEAM_I_0 + %d, null, \n', i) ;
-    fprintf(fid,'        reference, BEAM_I_0 + %d, euler123, \n', i) ;
-    fprintf(fid,'			     0., 0., %9.7f,  \n', wing.I_th(i) ) ;
-    fprintf(fid,'        reference, BEAM_0, null, \n') ;
-    fprintf(fid,'        reference, BEAM_0, null; \n') ;
-  end
-
-  for i = 1 : N.beam
-    fprintf(fid,'reference: BEAM_II + %d, \n', i) ;
-    fprintf(fid,'        reference, BEAM_II_0 + %d, null, \n', i) ;
-    fprintf(fid,'        reference, BEAM_II_0 + %d, euler123, \n', i) ;
-    fprintf(fid,'			     0., 0., %9.7f,  \n',  wing.II_th(i) ) ;
-    fprintf(fid,'        reference, BEAM_0, null, \n') ;
-    fprintf(fid,'        reference, BEAM_0, null; \n') ;
-  end
-
 
 
 
