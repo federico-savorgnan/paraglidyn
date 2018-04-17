@@ -147,7 +147,7 @@ xlabel('Y - axis, Wingspan [m]')
 ylabel('Z - axis, Heigh [m]')
 % Mid wing line
 leg_wing = plot(rib.x(ceil(N.ribs/2):end,2), rib.x(ceil(N.ribs/2):end,3), '*-r', 'LineWidth', 2 );
-leg_pilot = plot(pilot.x(2), pilot.x(3), '^r')
+leg_pilot = plot(pilot.x(2), pilot.x(3), '^r');
 
 % Rope TOP Lines
 for i = length(knot)/2 + 1 :  length(knot)
@@ -170,15 +170,15 @@ end
 
 
 for i = ceil(N.ribs/2) : N.ribs
-  leg_norm = plot([z0(i,1), rib.x(i,2)], [z0(i,2), rib.x(i,3)], ':b')
+  leg_norm = plot([z0(i,1), rib.x(i,2)], [z0(i,2), rib.x(i,3)], ':b');
 end
 
 for i = ceil(N.ribs/2):N.ribs
-  text(rib.x(i,2), rib.x(i,3),num2str(i), 'fontsize', 14)
+  text(rib.x(i,2), rib.x(i,3),num2str(i), 'fontsize', 14);
 end
 
-axis([ 0., 1.1*wing.span/2, min([z0(:,2); pilot.x(3)]), 0.5 ])
-legend([leg_wing, leg_line, leg_norm, leg_pilot], 'Wing profile', 'Rope lines', 'Wing normal dir.', 'Pilot', 'Location', 'SouthEast')
+axis([ 0., 1.1*wing.span/2, min([z0(:,2); pilot.x(3)]), 0.5 ]);
+legend([leg_wing, leg_line, leg_norm, leg_pilot], 'Wing profile', 'Rope lines', 'Wing normal dir.', 'Pilot', 'Location', 'SouthEast');
 
 
 %--------------------------------
@@ -188,7 +188,7 @@ hold on
 grid on
 xlabel('Wingspan [m]')
 ylabel('Wing section lever arm to Pilot [m]')
-plot(wing.x(ceil(N.ribs/2):end,2), lp(ceil(N.ribs/2):end),'-ob')
+plot(wing.x(ceil(N.ribs/2):end,2), lp(ceil(N.ribs/2):end),'-ob');
 for i = ceil(N.ribs/2):N.ribs
-  text(wing.x(i,2), lp(i),num2str(i), 'fontsize', 14)
+  text(wing.x(i,2), lp(i),num2str(i), 'fontsize', 14);
 end

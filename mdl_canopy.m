@@ -38,7 +38,7 @@ fprintf(fid, 'include: "paraglide.set" ;    \n') ;
 
 fprintf(fid, 'begin: initial value;    \n') ;
 fprintf(fid, 'initial time: 0.;        \n') ;
-fprintf(fid, 'final time: 20. ;         \n') ;
+fprintf(fid, 'final time: 200. ;         \n') ;
 fprintf(fid, 'time step: 0.01 ;        \n') ;
 
 fprintf(fid, 'method: ms, .4;                   \n') ;

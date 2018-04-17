@@ -56,21 +56,8 @@ te.c0 = 0. ;      % m - correction strenght
 te.type = 0 ;      %  correction type (exponent)
 
 % RIBS twist
-rib.tw0 = 5. * pi/180 ;  % Wing center
-rib.tw1 = 5. * pi/180 ;  %  Tip wing
-% Pilot position
-pilot.x(1) = 0.2 * (le.b + te.b) ;    % m - Pilot X position
-pilot.x(2) = 0. ;                    % m - Pilot Y position
-pilot.x(3) = -7.5 ;                  % m - Pilot Z position
-pilot.d = 0.4 ;     % m - Carabiner horizz distance
-pilot.h = 0.3 ;     % m - Carabiner - pilot_CG vert distance
-% Pilot movement
-pilot.offset = 0.02 ;
-pilot.t0 = 10. ;
-pilot.Dt = 0. ;
-pilot.tau = 5. ;
-pilot.Ncyc = 1 ;
-pilot.type = 'forever'  ;
+rib.tw0 = 4. * pi/180 ;  % Wing center
+rib.tw1 = 7. * pi/180 ;  %  Tip wing
 
 % Special points chord position
 pCG = 0.3 ;   % Adimensional chord [0-1]
@@ -80,9 +67,24 @@ pA = [pA, fliplr(pA(1:end-1))];
 pB  = linspace(1.,0.8,N.ribs/2+1) ;  % Adimensional chord [0-1]
 pB = [pB, fliplr(pB(1:end-1))];
 
+% --------------------------------------------------------------
+% Pilot position
+pilot.x(1) = 0.1 * (le.b + te.b) ;    % m - Pilot X position
+pilot.x(2) = 0. ;                    % m - Pilot Y position
+pilot.x(3) = -7.5 ;                  % m - Pilot Z position
+pilot.d = 0.4 ;     % m - Carabiner horizz distance
+pilot.h = 0. ;     % m - Carabiner - pilot_CG vert distance
+% Pilot movement
+pilot.offset = 0.003 ;
+pilot.t0 = 1. ;
+pilot.Dt = 10. ;
+pilot.tau = 2. ;
+pilot.Ncyc = 30 ;
+pilot.type = 'one'  ;
+
 % Pilot Drag
 pilot.S_aer = 0.5 ;    % Pilot Frontal aerodynamic surface
-pilot.Cd = 1. ;        % Pilot Drag coeff.
+pilot.Cd = .5 ;        % Pilot Drag coeff.
 pilot.rho = 1.225 ;    % Air density for pilot drag calc
 
 %% Pilot lumped mass
@@ -91,6 +93,7 @@ pilot.Ixx = 3. ;      % 3.
 pilot.Iyy = 8. ;      % 8.
 pilot.Izz = 9. ;      % 9.
 
+% --------------------------------------------------------------
 %% Canopy mass/stiffness data
 M = 6 ;                %  Kg - Canopy weight
 rib.mass = M / (N.ribs) ;
@@ -106,8 +109,8 @@ BEAM_TYPE = 3 ;
 stiff_fact = 1. ;
 EA = 1.e4 ;
 GAy = 1.e2 ;
-GAz = 1.e2 ;
-GJ = 1.e1 ;
+GAz = 1.e3 ;
+GJ = 1.e2 ;
 EJy = 1.e2 ;
 EJz = 1.e2 ;
 beam_stiff = stiff_fact * [ EA, GAy, GAz, GJ, EJy, EJz] ;
@@ -117,7 +120,7 @@ damp_fact = 0.4 ;
 
 in = 1 ;
 knot(in).r = 0.05 ;
-knot(in).nrib = [ 1:13] ;
+knot(in).nrib = [ 1:12] ;
 
 % load('connection_table.mat')
 
@@ -133,10 +136,12 @@ end
 
 N.aer_int_pts = 4 ;    % N Aero integration points
 
+% --------------------------------------------------------------
 %% Simulation initial condition
 ic.V_inf = 12.2;                % m/s - Canopy Velocity m/s
 ic.Eff = 9.5;                     % Efficiency Vx/Vz
 ic.pre_pitch = -7.7 * pi/180 ;   % Positive nose-up
 
+% ================================================================
 %% SAVE INPUT DATA to FILE
 save([model_name, '/input_data.mat'], 'vault', 'le', 'te', 'pilot', 'N', 'ic', 'rib', 'knot');

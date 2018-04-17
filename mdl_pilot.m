@@ -55,10 +55,10 @@ fid = fopen([model_name, '/pilot.elm'],'w') ;
   fprintf(fid,'   const, %6.4f, \n', pilot.mass);
   fprintf(fid,'   component, \n');
   fprintf(fid,'       const, 0., \n');
-  fprintf(fid,'       array, %d,    \n', pilot.Ncyc );
+  fprintf(fid,'       array, %d,    \n', 2*pilot.Ncyc );
   for i = 1 : pilot.Ncyc
-    fprintf(fid,'       cosine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (2*i-2)*(pilot.tau) + pilot.t0, 2*pi/pilot.tau,  pilot.offset, pilot.type);
-    % fprintf(fid,'       cosine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (2*i-1)*(pilot.tau) + pilot.t0, 2*pi/pilot.tau,  -pilot.offset, pilot.type);
+    fprintf(fid,'       cosine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (2*i-2)*(pilot.tau/2+pilot.Dt) + pilot.t0, 2*pi/pilot.tau,  pilot.offset, pilot.type);
+    fprintf(fid,'       cosine, %9.7f, %9.7f, %9.7f, %s, 0., \n', (2*i-1)*(pilot.tau/2+pilot.Dt) + pilot.t0, 2*pi/pilot.tau,  -pilot.offset, pilot.type);
   end
 
   fprintf(fid,'       const, 0., \n');
