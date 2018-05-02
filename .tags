@@ -1,2 +1,5 @@
 joint_x	/home/savo/Documenti/paraglidyn/joint_x.m	/^function [d1, d2, e1, e2] = joint_x(filename, ID_plot, N, time)$/;"	function	line:1
 pilot_alfa	/home/savo/Documenti/paraglidyn/pilot_alfa.m	/^function [Pilot_alfa] = pilot_alfa(filename, ID_plot, N, time)$/;"	function	line:1
+esse	/home/savo/Documenti/paraglidyn/esse.m	/^function out = esse(x, param, ref)$/;"	function	line:3
+ddy	/home/savo/Documenti/paraglidyn/ddy.m	/^function out = ddy(x, param)$/;"	function	line:1
+ellipse	/home/savo/Documenti/paraglidyn/ellipse.m	/^function [ y, th ] = ellipse( x, param )$/;"	function	line:27
