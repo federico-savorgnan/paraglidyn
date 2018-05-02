@@ -81,7 +81,7 @@ write_copy(fid);
      fprintf(fid,'reference: AERO + %d, \n', i) ;
      fprintf(fid,'        reference, CANOPY, %9.7f, %9.7f, %9.7f, \n', rib.aer(i,:)) ;
      fprintf(fid,'        reference, AERO_0, euler123,  \n') ;
-     fprintf(fid,'			     %9.7f, %9.7f, 0.,  \n', -rib.th(i), wing.th(i) ) ;
+     fprintf(fid,'			     %9.7f, %9.7f, 0.,  \n', -rib.th(i), 0. ) ;
      fprintf(fid,'        reference, AERO_0, null, \n') ;
      fprintf(fid,'        reference, AERO_0, null; \n') ;
  end

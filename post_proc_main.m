@@ -34,6 +34,7 @@ while ~exit
     [Pilot_x] = pilot_x(filename, ID_plot, N) ;
     [Pilot_v] = pilot_v(filename, ID_plot, time) ;
     [Pilot_Eff] = pilot_Eff(filename, ID_plot, time) ;
+    legend('X', 'V', 'Eff')
   elseif M == 2
     [Pilot_E] = pilot_E(filename, ID_plot, N, time) ;
   elseif M == 3

@@ -38,7 +38,7 @@ fprintf(fid, 'include: "paraglide.set" ;    \n') ;
 
 fprintf(fid, 'begin: initial value;    \n') ;
 fprintf(fid, 'initial time: 0.;        \n') ;
-fprintf(fid, 'final time: 50. ;         \n') ;
+fprintf(fid, 'final time: 30. ;         \n') ;
 fprintf(fid, 'time step: 0.01 ;        \n') ;
 
 fprintf(fid, 'method: ms, .4;                   \n') ;
@@ -48,7 +48,7 @@ fprintf(fid, 'tolerance: 1.e-6;                 \n') ;
 % fprintf(fid, ' # nonlinear solver: newton raphson, modified, 4;    \n') ;
 fprintf(fid, 'derivatives tolerance:  1.e-5;      \n') ;
 fprintf(fid, 'derivatives max iterations:  100;   \n') ;
-fprintf(fid, ' derivatives coefficient:  1.e-12;  \n') ;
+fprintf(fid, 'derivatives coefficient:  1.e-12;  \n') ;
 % fprintf(fid, 'derivatives coefficient:  auto, max iterations, 10;    \n') ;
 % fprintf(fid, ' # output: iterations;    \n') ;
 % fprintf(fid, ' # output: residual;    \n') ;
@@ -130,9 +130,15 @@ fprintf(fid, '  include: "canopy.nod";    \n') ;
 fprintf(fid, 'end: nodes;    \n') ;
 fprintf(fid, 'begin: elements;    \n') ;
 fprintf(fid, '  gravity: uniform, 0., 0., -1., const, 9.81;    \n') ;
+
 fprintf(fid, '  air properties: std, SI, reference altitude, 0.,    \n') ;
 fprintf(fid, '    1., 0., 0.,    \n') ;
-fprintf(fid, '    const, 0. ;    \n') ;
+fprintf(fid, '    const, 0. ,   \n') ;
+fprintf(fid, ' gust, front 1D,   \n') ;
+fprintf(fid, ' 1.,0.,0., # front moving along X   \n') ;
+fprintf(fid, ' 0.,0.,1., # gust along Z   \n') ;
+fprintf(fid, ' 0., # front moving at V_inf   \n') ;
+fprintf(fid, ' cosine, 0., pi/20., 0./2., half, 0.;   \n') ;
 fprintf(fid, '  include: "pilot.elm";    \n') ;
 fprintf(fid, '  include: "canopy.elm";    \n') ;
 fprintf(fid, 'end: elements;    \n') ;

@@ -73,7 +73,7 @@ fid = fopen([model_name, '/pilot.elm'],'w') ;
 
 % (simple) Aerodynamic drag force
   fprintf(fid,'force: PILOT + 50, absolute,\n');
-  fprintf(fid,'   PILOT, position, reference, PILOT, 0.5, 0., 0., \n');
+  fprintf(fid,'   PILOT, position, reference, PILOT, 0., 0., 0., \n');
   fprintf(fid,'   component, \n');
   fprintf(fid,'   string, "-Cd*S_pilot*rho*0.5*model::xvelocity(PILOT)*model::velocity(PILOT)", \n');
   fprintf(fid,'   string, "-Cd*S_pilot*rho*0.5*model::yvelocity(PILOT)*model::velocity(PILOT)", \n');

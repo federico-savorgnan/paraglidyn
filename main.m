@@ -47,7 +47,7 @@ if ~exist(model_name)
   system(['mkdir ', model_name]);
 
   %% Input model data
-    data_store_coarse
+    data_store_fine
   %% Geometry generation
     geom_eng
     plot_model

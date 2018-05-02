@@ -40,7 +40,7 @@ vault.type = 0 ;    %  correction type (exponent)
 
 wing.span = 13 ;
 % % Canopy Leading Edge shape
-le.a = 10.09 ;       % m - semiaxis ellipse
+le.a = 6.6 ;       % m - semiaxis ellipse
 le.b = 1.53 ;        % m - semiaxis ellipse
 le.xm = wing.span ;     % m - semi-span
 le.x1 = 3.91 ;       % m - Canopy heigh
@@ -69,16 +69,16 @@ pB = [pB, fliplr(pB(1:end-1))];
 
 % --------------------------------------------------------------
 % Pilot position
-pilot.x(1) = 0.1 * (le.b + te.b) ;    % m - Pilot X position
+pilot.x(1) = 0. * (le.b + te.b) ;    % m - Pilot X position
 pilot.x(2) = 0. ;                    % m - Pilot Y position
 pilot.x(3) = -7.5 ;                  % m - Pilot Z position
 pilot.d = 0.4 ;     % m - Carabiner horizz distance
 pilot.h = 0. ;     % m - Carabiner - pilot_CG vert distance
 % Pilot movement
-pilot.offset = 0.003 ;
+pilot.offset = 0.05 ;
 pilot.t0 = 1. ;
-pilot.Dt = 10. ;
-pilot.tau = 2. ;
+pilot.Dt = 0. ;
+pilot.tau = 7. ;
 pilot.Ncyc = 30 ;
 pilot.type = 'one'  ;
 
@@ -89,9 +89,9 @@ pilot.rho = 1.225 ;    % Air density for pilot drag calc
 
 %% Pilot lumped mass
 pilot.mass = 90. ;   % Kg - Pilot + Harness weight
-pilot.Ixx = 3. ;      % 3.
-pilot.Iyy = 8. ;      % 8.
-pilot.Izz = 9. ;      % 9.
+pilot.Ixx = 1. ;      % 3.
+pilot.Iyy = 1. ;      % 8.
+pilot.Izz = 1. ;      % 9.
 
 % --------------------------------------------------------------
 %% Canopy mass/stiffness data
@@ -100,17 +100,17 @@ rib.mass = M / (N.ribs) ;
 rib.Ixx = .2 ;        % .2
 rib.Iyy = .05 ;       % .05
 rib.Izz = .2 ;        % .2
-stiff_A = 1.e7 ;        % N/m - lines stiffness
+stiff_A = 1.e6 ;        % N/m - lines stiffness
 stiff_B = stiff_A ;        % N/m - lines stiffness
-damp_A = 0.0005 * stiff_A ;        % Ns/m - lines damp
+damp_A = 0.00005 * stiff_A ;        % Ns/m - lines damp
 damp_B = damp_A ;        % Ns/m - lines damp
 
 BEAM_TYPE = 3 ;
-stiff_fact = 1. ;
+stiff_fact = 10. ;
 EA = 1.e4 ;
 GAy = 1.e2 ;
 GAz = 1.e3 ;
-GJ = 1.e2 ;
+GJ = 1.e1 ;
 EJy = 1.e2 ;
 EJz = 1.e2 ;
 beam_stiff = stiff_fact * [ EA, GAy, GAz, GJ, EJy, EJz] ;
@@ -119,8 +119,11 @@ damp_fact = 0.4 ;
 
 
 in = 1 ;
-knot(in).r = 0.05 ;
-knot(in).nrib = [ 1:5] ;
+knot(in).r = 0.6 ;
+knot(in).nrib = [ 1:4] ;
+in = in+1 ;
+knot(in).r = 0.6 ;
+knot(in).nrib = [ 1:4] ;
 
 % load('connection_table.mat')
 
@@ -134,13 +137,13 @@ for i = 1 : N.knot
 end
 
 
-N.aer_int_pts = 4 ;    % N Aero integration points
+N.aer_int_pts = 2 ;    % N Aero integration points
 
 % --------------------------------------------------------------
 %% Simulation initial condition
-ic.V_inf = 12.2;                % m/s - Canopy Velocity m/s
-ic.Eff = 9.5;                     % Efficiency Vx/Vz
-ic.pre_pitch = -7.7 * pi/180 ;   % Positive nose-up
+ic.V_inf = 20.3;                % m/s - Canopy Velocity m/s
+ic.Eff = 5.8;                     % Efficiency Vx/Vz
+ic.pre_pitch = -13.2 * pi/180 ;   % Positive nose-up
 
 % ================================================================
 %% SAVE INPUT DATA to FILE

@@ -26,76 +26,73 @@
 
 %% Canopy shape data
 %% CELL NUMBER
-N.beam = 12 ;
+N.beam = 13 ;
 N.ribs = 1 + 2*N.beam ;         % Wing number of Ribs
 N.box = N.ribs - 1 ;   % Wing cell
 N.cell = N.box ;   % Wing cell
 % % Canopy Vault shape
-vault.a = 6.09 ;      % m - semiaxis ellipse
-vault.b = 5.23 ;     % m -semiaxis ellipse
-vault.xm = 4.99 ;     % m - semi-span
-vault.x1 = 3.91 ;     % m - correction point
+vault.a = 4.2 ;      % m - semiaxis ellipse
+vault.b = 2.3;     % m -semiaxis ellipse
+vault.x1 = 3. ;     % m - correction point
 vault.c0 = .5 ;     % m - correction strenght
 vault.type = 0 ;    %  correction type (exponent)
 
-wing.span = 13 ;
+wing.span = 10.2 ;
 % % Canopy Leading Edge shape
-le.a = 10.09 ;       % m - semiaxis ellipse
-le.b = 1.53 ;        % m - semiaxis ellipse
-le.xm = wing.span ;     % m - semi-span
-le.x1 = 3.91 ;       % m - Canopy heigh
+le.a = 5.4 ;       % m - semiaxis ellipse
+le.b = 1.5 ;        % m - semiaxis ellipse
+le.x1 = 3. ;       % m - Canopy heigh
 le.c0 = 0. ;      % m - correction strenght
 le.type = 0 ;      %  correction type (exponent)
 
 % % Canopy Trailing Edge shape
-te.a = 10.09 ;        % m - semiaxis ellipse
-te.b = 1.53 ;         % m - semiaxis ellipse
-te.xm = wing.span ;    % m - semi-span
-te.x1 = 3.91 ;       % m - Canopy heigh
+te.a = 5.4 ;        % m - semiaxis ellipse
+te.b = 1.5 ;         % m - semiaxis ellipse
+te.x1 = 3. ;       % m - Canopy heigh
 te.c0 = 0. ;      % m - correction strenght
 te.type = 0 ;      %  correction type (exponent)
 
 % RIBS twist
-rib.tw0 = 4. * pi/180 ;  % Wing center
-rib.tw1 = 7. * pi/180 ;  %  Tip wing
+rib.tw0 = 6. * pi/180 ;  % Wing center
+rib.tw1 = 5. * pi/180 ;  %  Tip wing
 
 % Special points chord position
 pCG = 0.3 ;   % Adimensional chord [0-1]
-pAC = 0.25 ;   % Adimensional chord [0-1]
-pA  = linspace(0.,0.1,N.ribs/2+1) ;   % Adimensional chord [0-1]
+pAC = 0.3 ;   % Adimensional chord [0-1]
+pA  = linspace(0.2,0.2,N.ribs/2+1) ;   % Adimensional chord [0-1]
 pA = [pA, fliplr(pA(1:end-1))];
-pB  = linspace(1.,0.8,N.ribs/2+1) ;  % Adimensional chord [0-1]
+pB  = linspace(.9,0.8,N.ribs/2+1) ;  % Adimensional chord [0-1]
 pB = [pB, fliplr(pB(1:end-1))];
 
 % --------------------------------------------------------------
 % Pilot position
-pilot.x(1) = 0.1 * (le.b + te.b) ;    % m - Pilot X position
+pilot.x(1) = 0.2 * (le.b + te.b) ;    % m - Pilot X position
 pilot.x(2) = 0. ;                    % m - Pilot Y position
-pilot.x(3) = -7.5 ;                  % m - Pilot Z position
+pilot.x(3) = -5.75 ;                  % m - Pilot Z position
 pilot.d = 0.4 ;     % m - Carabiner horizz distance
 pilot.h = 0. ;     % m - Carabiner - pilot_CG vert distance
 % Pilot movement
-pilot.offset = 0.003 ;
+pilot.offset = 0.00 ;
 pilot.t0 = 1. ;
-pilot.Dt = 10. ;
-pilot.tau = 2. ;
+pilot.Dt = 0. ;
+pilot.tau = 7. ;
 pilot.Ncyc = 30 ;
 pilot.type = 'one'  ;
 
 % Pilot Drag
-pilot.S_aer = 0.5 ;    % Pilot Frontal aerodynamic surface
+pilot.S_aer = 0.8 ;    % Pilot Frontal aerodynamic surface
 pilot.Cd = .5 ;        % Pilot Drag coeff.
 pilot.rho = 1.225 ;    % Air density for pilot drag calc
 
 %% Pilot lumped mass
-pilot.mass = 100. ;   % Kg - Pilot + Harness weight
-pilot.Ixx = 3. ;      % 3.
-pilot.Iyy = 8. ;      % 8.
-pilot.Izz = 9. ;      % 9.
+pilot.mass = 90. ;   % Kg - Pilot + Harness weight
+pilot.Ixx = 1. ;      % 3.
+pilot.Iyy = 1. ;      % 8.
+pilot.Izz = 1. ;      % 9.
 
 % --------------------------------------------------------------
 %% Canopy mass/stiffness data
-M = 6 ;                %  Kg - Canopy weight
+M = 5 ;                %  Kg - Canopy weight
 rib.mass = M / (N.ribs) ;
 rib.Ixx = .2 ;        % .2
 rib.Iyy = .05 ;       % .05
@@ -108,19 +105,28 @@ damp_B = damp_A ;        % Ns/m - lines damp
 BEAM_TYPE = 3 ;
 stiff_fact = 1. ;
 EA = 1.e4 ;
-GAy = 1.e2 ;
-GAz = 1.e3 ;
-GJ = 1.e2 ;
-EJy = 1.e2 ;
-EJz = 1.e2 ;
+GAy = 50. ;
+GAz = 50. ;
+GJ = 20. ;
+EJy = 30. ;
+EJz = 100. ;
 beam_stiff = stiff_fact * [ EA, GAy, GAz, GJ, EJy, EJz] ;
-damp_fact = 0.4 ;
+damp_fact = 0.2 ;
 
 
 
 in = 1 ;
-knot(in).r = 0.05 ;
-knot(in).nrib = [ 1:12] ;
+knot(in).r = 0.6 ;
+knot(in).nrib = [ 1:2] ;
+in = in+1 ;
+knot(in).r = 0.6 ;
+knot(in).nrib = [ 3:6] ;
+in = in+1 ;
+knot(in).r = 0.6 ;
+knot(in).nrib = [ 7:10] ;
+in = in+1 ;
+knot(in).r = 0.6;
+knot(in).nrib = [ 11:14] ;
 
 % load('connection_table.mat')
 
@@ -134,13 +140,13 @@ for i = 1 : N.knot
 end
 
 
-N.aer_int_pts = 4 ;    % N Aero integration points
+N.aer_int_pts = 1 ;    % N Aero integration points
 
 % --------------------------------------------------------------
 %% Simulation initial condition
-ic.V_inf = 12.2;                % m/s - Canopy Velocity m/s
-ic.Eff = 9.5;                     % Efficiency Vx/Vz
-ic.pre_pitch = -7.7 * pi/180 ;   % Positive nose-up
+ic.V_inf = 13.;                % m/s - Canopy Velocity m/s
+ic.Eff = 5.8;                     % Efficiency Vx/Vz
+ic.pre_pitch = -5. * pi/180 ;   % Positive nose-up
 
 % ================================================================
 %% SAVE INPUT DATA to FILE
